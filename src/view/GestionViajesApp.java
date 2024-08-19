@@ -3,14 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestorviajes;
+package view;
 import javax.swing.JOptionPane;
+import controller.GestionController;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 /**
  *
  * @author bryge
  */
 public class GestionViajesApp extends javax.swing.JFrame {
-
+    GestionController opciones = new GestionController();
     /**
      * Creates new form GestionViajesApp
      */
@@ -68,11 +75,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        abreDirectorio = new javax.swing.JMenuItem();
+        exportar = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1500, 900));
         setResizable(false);
 
         tblViajes.setModel(new javax.swing.table.DefaultTableModel(
@@ -112,7 +119,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
         });
 
         filtrar.setText("Filtrar");
-        filtrar.setActionCommand("Filtrar");
         filtrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filtrarActionPerformed(evt);
@@ -120,7 +126,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
         });
 
         limpiar.setText("Limpiar");
-        limpiar.setActionCommand("Limpiar");
         limpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarActionPerformed(evt);
@@ -252,14 +257,23 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jMenuItem2.setText("Documentación");
         jMenu2.add(jMenuItem2);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem1.setText("Exportar en CSV");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        abreDirectorio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        abreDirectorio.setText("Abrir directorio de CSV");
+        abreDirectorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                abreDirectorioActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(abreDirectorio);
+
+        exportar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        exportar.setText("Exportar en CSV");
+        exportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportarActionPerformed(evt);
+            }
+        });
+        jMenu2.add(exportar);
 
         salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         salir.setText("Salir");
@@ -481,17 +495,28 @@ public class GestionViajesApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_latitudDestinoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
+        // Obtener la fecha y hora actual
+        LocalDateTime fechaActual = LocalDateTime.now();
+        // Crear un DateTimeFormatter con el formato deseado
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        // Formatear la fecha
+        String fechaexport = fechaActual.format(formato);
+        opciones.exportarViajesACSV("viajes-"+fechaexport+".csv");
+    }//GEN-LAST:event_exportarActionPerformed
 
     private void longitudOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longitudOrigenActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_longitudOrigenActionPerformed
 
     private void longitudDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longitudDestinoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_longitudDestinoActionPerformed
+
+    private void abreDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abreDirectorioActionPerformed
+        opciones.abreDirectorio();
+    }//GEN-LAST:event_abreDirectorioActionPerformed
 
     /*
      * @param args the command line arguments
@@ -529,9 +554,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem abreDirectorio;
     private javax.swing.JButton agregar;
     private javax.swing.JTextField destino;
     private javax.swing.JButton eliminar;
+    private javax.swing.JMenuItem exportar;
     private javax.swing.JTextField fecFin;
     private javax.swing.JTextField fecIni;
     private javax.swing.JButton filtrar;
@@ -540,7 +567,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
