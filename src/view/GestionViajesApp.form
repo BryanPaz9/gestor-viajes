@@ -8,6 +8,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Opciones"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu2ActionPerformed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
@@ -87,59 +90,63 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblOrigen3" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="agregar" min="-2" pref="118" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="eliminar" min="-2" pref="118" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="filtrar" min="-2" pref="118" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="limpiar" min="-2" pref="118" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblOrigen3" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="fecIni" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblFecIni" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="fecFin" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblFecFin" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="fecIni" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblFecIni" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ubiOrigen" alignment="0" pref="220" max="32767" attributes="0"/>
-                                      <Component id="origen" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen1" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="destino" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblDestino" alignment="0" pref="220" max="32767" attributes="0"/>
-                                      <Component id="ubiDestino" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="latitudDestino" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen2" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="longitudDestino" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen5" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="fecFin" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblFecFin" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ubiOrigen" alignment="0" pref="220" max="32767" attributes="0"/>
+                                  <Component id="origen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen1" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="destino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblDestino" alignment="0" pref="220" max="32767" attributes="0"/>
+                                  <Component id="ubiDestino" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="latitudDestino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="longitudDestino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen5" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jScrollPane1" pref="682" max="32767" attributes="0"/>
-                          <Component id="jSeparator1" max="32767" attributes="0"/>
-                          <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="agregar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="eliminar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="filtrar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="limpiar" min="-2" pref="112" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="editar" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="modificar" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jScrollPane1" pref="682" max="32767" attributes="0"/>
+                              <Component id="jSeparator1" max="32767" attributes="0"/>
+                              <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -226,6 +233,8 @@
                                   <Component id="filtrar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="limpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="agregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="editar" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="modificar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="239" max="-2" attributes="0"/>
@@ -263,43 +272,43 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="0">
-                <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Origen" type="java.lang.Object"/>
-                <Column editable="true" title="Destino" type="java.lang.Object"/>
-                <Column editable="true" title="Fecha de Inicio" type="java.lang.Object"/>
-                <Column editable="true" title="Fecha de Fin" type="java.lang.Object"/>
+                <Column editable="false" title="ID" type="java.lang.Integer"/>
+                <Column editable="true" title="Origen" type="java.lang.String"/>
+                <Column editable="true" title="Destino" type="java.lang.String"/>
+                <Column editable="true" title="Fecha de Inicio" type="java.lang.String"/>
+                <Column editable="true" title="Fecha de Fin" type="java.lang.String"/>
                 <Column editable="true" title="Estado" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="5" resizable="false">
-                  <Title/>
+                  <Title value="ID"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                  <Title/>
+                  <Title value="Origen"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
+                  <Title value="Destino"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="true">
-                  <Title/>
+                  <Title value="Fecha de Inicio"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="false">
-                  <Title/>
+                  <Title value="Fecha de Fin"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="35" resizable="false">
-                  <Title/>
+                  <Title value="Estado"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -402,7 +411,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="fecFin">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="24/08/2024"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
@@ -417,7 +425,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="fecIni">
       <Properties>
-        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="18/08/2024"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
@@ -525,6 +532,22 @@
       <Properties>
         <Property name="orientation" type="int" value="1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="editar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="modificar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

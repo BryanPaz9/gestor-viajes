@@ -12,17 +12,22 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author bryge
  */
 public class GestionViajesApp extends javax.swing.JFrame {
     GestionController opciones = new GestionController();
+    private DefaultTableModel dtm;
+    private Object[] datos = new Object[6];
+    private int filaSelec;
     /**
      * Creates new form GestionViajesApp
      */
     public GestionViajesApp() {
         initComponents();
+        dtm = (DefaultTableModel)tblViajes.getModel();
         /*setResizable(false);
         
         // Opcional: puedes establecer un tamaño fijo utilizando setSize
@@ -72,6 +77,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        editar = new javax.swing.JButton();
+        modificar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -90,9 +97,16 @@ public class GestionViajesApp extends javax.swing.JFrame {
                 "ID", "Origen", "Destino", "Fecha de Inicio", "Fecha de Fin", "Estado"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -102,12 +116,18 @@ public class GestionViajesApp extends javax.swing.JFrame {
         if (tblViajes.getColumnModel().getColumnCount() > 0) {
             tblViajes.getColumnModel().getColumn(0).setResizable(false);
             tblViajes.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tblViajes.getColumnModel().getColumn(0).setHeaderValue("ID");
             tblViajes.getColumnModel().getColumn(1).setResizable(false);
+            tblViajes.getColumnModel().getColumn(1).setHeaderValue("Origen");
+            tblViajes.getColumnModel().getColumn(2).setHeaderValue("Destino");
             tblViajes.getColumnModel().getColumn(3).setPreferredWidth(15);
+            tblViajes.getColumnModel().getColumn(3).setHeaderValue("Fecha de Inicio");
             tblViajes.getColumnModel().getColumn(4).setResizable(false);
             tblViajes.getColumnModel().getColumn(4).setPreferredWidth(15);
+            tblViajes.getColumnModel().getColumn(4).setHeaderValue("Fecha de Fin");
             tblViajes.getColumnModel().getColumn(5).setResizable(false);
             tblViajes.getColumnModel().getColumn(5).setPreferredWidth(35);
+            tblViajes.getColumnModel().getColumn(5).setHeaderValue("Estado");
         }
 
         eliminar.setText("Eliminar");
@@ -162,7 +182,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         lblFecIni.setText("Fecha de inicio");
 
-        fecFin.setEditable(false);
         fecFin.setText("24/08/2024");
         fecFin.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
         fecFin.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +192,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         lblFecFin.setText("Fecha de Fin");
 
-        fecIni.setEditable(false);
         fecIni.setText("18/08/2024");
         fecIni.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
         fecIni.addActionListener(new java.awt.event.ActionListener() {
@@ -251,7 +269,26 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarActionPerformed(evt);
+            }
+        });
+
+        modificar.setText("Modificar");
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
+
         jMenu2.setText("Opciones");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem2.setText("Documentación");
@@ -299,49 +336,53 @@ public class GestionViajesApp extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblOrigen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblOrigen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(fecIni)
-                                        .addComponent(lblFecIni, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(61, 61, 61)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(fecFin)
-                                        .addComponent(lblFecFin, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(longitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblOrigen4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(latitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ubiOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                        .addComponent(origen, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblOrigen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(61, 61, 61)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(destino)
-                                        .addComponent(lblDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                        .addComponent(ubiDestino, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(latitudDestino)
-                                        .addComponent(lblOrigen2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(longitudDestino)
-                                        .addComponent(lblOrigen5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fecIni)
+                                    .addComponent(lblFecIni, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(61, 61, 61)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fecFin)
+                                    .addComponent(lblFecFin, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(longitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrigen4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(latitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ubiOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                    .addComponent(origen, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblOrigen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(61, 61, 61)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(destino)
+                                    .addComponent(lblDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                    .addComponent(ubiDestino, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(latitudDestino)
+                                    .addComponent(lblOrigen2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(longitudDestino)
+                                    .addComponent(lblOrigen5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
-                            .addComponent(jSeparator1)
-                            .addComponent(jSeparator2))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+                                .addComponent(jSeparator1)
+                                .addComponent(jSeparator2)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -410,7 +451,9 @@ public class GestionViajesApp extends javax.swing.JFrame {
                                     .addComponent(eliminar)
                                     .addComponent(filtrar)
                                     .addComponent(limpiar)
-                                    .addComponent(agregar))
+                                    .addComponent(agregar)
+                                    .addComponent(editar)
+                                    .addComponent(modificar))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -433,7 +476,13 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+   
+        if (tblViajes.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(null, "No ha seleccionado un registro de la tabla", "ERROR AL ELIMINAR REGISTRO", JOptionPane.ERROR_MESSAGE);
+            
+        }else{
+          dtm.removeRow(tblViajes.getSelectedRow());  
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
@@ -445,7 +494,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_limpiarActionPerformed
 
     private void origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origenActionPerformed
-        // TODO add your handling code here:
+         destino.requestFocus();
     }//GEN-LAST:event_origenActionPerformed
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
@@ -464,7 +513,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_salirActionPerformed
 
     private void destinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destinoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_destinoActionPerformed
 
     private void fecFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecFinActionPerformed
@@ -472,17 +521,67 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_fecFinActionPerformed
 
     private void fecIniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecIniActionPerformed
-        // TODO add your handling code here:
+        fecFin.requestFocus();
     }//GEN-LAST:event_fecIniActionPerformed
 
     private void ubiOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubiOrigenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ubiOrigenActionPerformed
 
+    private int id = 1;
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        // TODO add your handling code here:
+        
+         if (!camposvacios()){      
+             
+        datos [0] = id ++;
+        datos [1] = origen.getText().trim();
+        datos [2] = destino.getText().trim();
+        datos [3] = fecIni.getText().trim();
+        datos [4] = fecFin.getText().trim();   
+        
+        dtm.addRow(datos);
+        LimpiarCampos();
+         }
     }//GEN-LAST:event_agregarActionPerformed
-
+    
+    private void LimpiarCampos(){
+       
+       
+       origen.setText("");
+       destino.setText("");
+       fecIni.setText("");
+       fecFin.setText("");
+       
+       origen.requestFocus();
+        
+    }
+    
+    private boolean camposvacios(){
+        
+        if (origen.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El Campo Origen esta vacio", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
+            origen.requestFocus();
+            return true;
+        }else if (destino.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El Campo Destino esta vacio", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
+            destino.requestFocus();
+            return true;
+        }else if(fecIni.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El Campo Fecha de Inicio esta vacio", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
+            fecIni.requestFocus();
+            return true;
+        }else if(fecFin.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El Campo Fecha de Fin esta vacio", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
+            fecFin.requestFocus();
+            return true;
+        }
+        
+        
+        return false;
+    }
+  
+    
+    
     private void ubiDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubiDestinoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ubiDestinoActionPerformed
@@ -517,6 +616,46 @@ public class GestionViajesApp extends javax.swing.JFrame {
     private void abreDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abreDirectorioActionPerformed
         opciones.abreDirectorio();
     }//GEN-LAST:event_abreDirectorioActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+   
+        if (tblViajes.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(null, "No ha seleccionado un registro de la tabla", "ERROR AL MODIFICAR REGISTRO", JOptionPane.WARNING_MESSAGE);
+            
+        }else{
+         filaSelec = tblViajes.getSelectedRow();
+        
+        origen.setText(tblViajes.getValueAt(filaSelec, 1).toString());
+        destino.setText(tblViajes.getValueAt(filaSelec, 2).toString());
+        fecIni.setText(tblViajes.getValueAt(filaSelec, 3).toString());
+        fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
+        
+        System.out.println("Fila: " + filaSelec);  
+        }
+        
+        
+        
+    }//GEN-LAST:event_editarActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+      
+       if (!camposvacios()){      
+             
+       dtm.setValueAt(origen.getText().trim(), filaSelec, 1);
+       dtm.setValueAt(destino.getText().trim(), filaSelec, 2);
+       dtm.setValueAt(fecIni.getText().trim(), filaSelec, 3);
+       dtm.setValueAt(fecFin.getText().trim(), filaSelec, 4);
+       //agregar un ws 
+        
+        
+        LimpiarCampos();
+         } 
+       
+    }//GEN-LAST:event_modificarActionPerformed
 
     /*
      * @param args the command line arguments
@@ -557,6 +696,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
     private javax.swing.JMenuItem abreDirectorio;
     private javax.swing.JButton agregar;
     private javax.swing.JTextField destino;
+    private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
     private javax.swing.JMenuItem exportar;
     private javax.swing.JTextField fecFin;
@@ -587,6 +727,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
     private javax.swing.JButton limpiar;
     private javax.swing.JTextField longitudDestino;
     private javax.swing.JTextField longitudOrigen;
+    private javax.swing.JButton modificar;
     private javax.swing.JTextField origen;
     private javax.swing.JMenuItem salir;
     private javax.swing.JTable tblViajes;
