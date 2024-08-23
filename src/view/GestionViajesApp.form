@@ -395,6 +395,7 @@
       </AccessibilityProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="destinoActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="destinoKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDestino">
