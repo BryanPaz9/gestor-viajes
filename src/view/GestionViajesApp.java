@@ -25,6 +25,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author bryge
@@ -207,6 +210,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
         destino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 destinoActionPerformed(evt);
+            }
+        });
+        destino.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                destinoKeyTyped(evt);
             }
         });
 
@@ -500,11 +508,9 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
     private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
         
-                String cadena = origen.getText();
-                origen.setText(cadena);
-                repaint();
-                filtro();
-                tblViajes.setRowSorter(trsfiltro);
+                filtro(); 
+                tblViajes.setRowSorter(trsfiltro); 
+                agregar.setEnabled(false); 
             
             
         
@@ -642,9 +648,15 @@ public class GestionViajesApp extends javax.swing.JFrame {
          filaSelec = tblViajes.getSelectedRow();
         
         origen.setText(tblViajes.getValueAt(filaSelec, 1).toString());
+
         destino.setText(tblViajes.getValueAt(filaSelec, 2).toString());
        // jDateChooser1(tblViajes.getValueAt(filaSelec, 3));
         //fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
+
+        destino.setText(tblViajes.getValueAt(filaSelec, 2).toString()); 
+        fecIni.setText(tblViajes.getValueAt(filaSelec, 3).toString());
+        fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
+
         
          // Deshabilita los botones Agregar y Eliminar
         agregar.setEnabled(false);
@@ -681,6 +693,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
         tblViajes.setRowSorter(trsfiltro);
     }//GEN-LAST:event_origenKeyTyped
 
+
     private void tblViajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblViajesMouseClicked
         // TODO add your handling code here:
         int s = tblViajes.rowAtPoint(evt.getPoint());
@@ -708,7 +721,39 @@ public class GestionViajesApp extends javax.swing.JFrame {
     public void filtro(){
         filtro = origen.getText();
         trsfiltro.setRowFilter(RowFilter.regexFilter(origen.getText(), 1));
+
+    private void destinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_destinoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_destinoKeyTyped
+  
+    public void filtro() {
+    // Creamos una lista de RowFilters para almacenar todos los filtros
+    List<RowFilter<Object, Object>> filtros = new ArrayList<>();
+
+    if (!origen.getText().trim().isEmpty()) {
+        filtros.add(RowFilter.regexFilter("(?i)" + origen.getText(), 1)); 
     }
+
+    if (!destino.getText().trim().isEmpty()) {
+        filtros.add(RowFilter.regexFilter("(?i)" + destino.getText(), 2)); 
+
+    }
+
+    if (!fecIni.getText().trim().isEmpty()) {
+        filtros.add(RowFilter.regexFilter("(?i)" + fecIni.getText(), 3)); 
+    }
+
+    if (!fecFin.getText().trim().isEmpty()) {
+        filtros.add(RowFilter.regexFilter("(?i)" + fecFin.getText(), 4)); 
+    }
+
+    if (filtros.isEmpty()) {
+        trsfiltro.setRowFilter(null); // Si no hay filtros, se muestran todos los registros
+    } else {
+        trsfiltro.setRowFilter(RowFilter.andFilter(filtros)); // Aplica los filtros combinados
+    }
+}
+
     
     /*
      * @param args the command line arguments
