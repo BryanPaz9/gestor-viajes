@@ -410,12 +410,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblFecIni">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Fecha de inicio"/>
+        <Property name="text" type="java.lang.String" value="Fecha de salida"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblFecFin">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Fecha de Fin"/>
+        <Property name="text" type="java.lang.String" value="Fecha de llegada"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="ubiOrigen">

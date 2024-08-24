@@ -274,9 +274,9 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         lblDestino.setText("Destino");
 
-        lblFecIni.setText("Fecha de inicio");
+        lblFecIni.setText("Fecha de salida");
 
-        lblFecFin.setText("Fecha de Fin");
+        lblFecFin.setText("Fecha de llegada");
 
         ubiOrigen.setText("Seleccionar Ubicación de Origen");
         ubiOrigen.setActionCommand("AgregarViaje");
@@ -683,7 +683,7 @@ private boolean camposvacios() {
     
     
     
-    
+  /*  
 private List<Viaje> getViajesFromTable() {
     List<Viaje> viajes = new ArrayList<>();
     DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
@@ -710,6 +710,34 @@ private List<Viaje> getViajesFromTable() {
             viaje.setLongitudOrigen(Double.valueOf((String) model.getValueAt(i, 7)));
             viaje.setLatitudDestino(Double.valueOf((String) model.getValueAt(i, 8)));
             viaje.setLongitudDestino(Double.valueOf((String) model.getValueAt(i, 9)));
+        
+        viajes.add(viaje);
+    }
+    
+    return viajes;
+}*/
+private List<Viaje> getViajesFromTable() {
+    List<Viaje> viajes = new ArrayList<>();
+    DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
+    
+    for (int i = 0; i < model.getRowCount(); i++) {
+        Viaje viaje = new Viaje();
+        viaje.setIdViaje((Integer) model.getValueAt(i, 0));
+        viaje.setOrigen((String) model.getValueAt(i, 1));
+        viaje.setDestino((String) model.getValueAt(i, 2));
+        viaje.setEstado((String) model.getValueAt(i, 5));
+
+        // Manejar fechas
+        Object fechaSalidaObj = model.getValueAt(i, 3);
+        Object fechaLlegadaObj = model.getValueAt(i, 4);
+        if (fechaSalidaObj instanceof Date) {
+            viaje.setFechaSalida((Date) fechaSalidaObj);
+            System.out.println(viaje.getFechaSalida());
+        }
+        if (fechaLlegadaObj instanceof Date) {
+            viaje.setFechaLlegada((Date) fechaLlegadaObj);
+        }
+
         
         viajes.add(viaje);
     }
