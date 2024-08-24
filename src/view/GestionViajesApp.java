@@ -654,8 +654,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
         //fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
 
         destino.setText(tblViajes.getValueAt(filaSelec, 2).toString()); 
-        fecIni.setText(tblViajes.getValueAt(filaSelec, 3).toString());
-        fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
+        //fecIni.setText(tblViajes.getValueAt(filaSelec, 3).toString());
+        //fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
 
         
          // Deshabilita los botones Agregar y Eliminar
@@ -718,10 +718,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
     
     
     
-    public void filtro(){
+    /*public void filtro(){
         filtro = origen.getText();
         trsfiltro.setRowFilter(RowFilter.regexFilter(origen.getText(), 1));
-
+    }*/
+    
     private void destinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_destinoKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_destinoKeyTyped
@@ -738,14 +739,14 @@ public class GestionViajesApp extends javax.swing.JFrame {
         filtros.add(RowFilter.regexFilter("(?i)" + destino.getText(), 2)); 
 
     }
-
+/*
     if (!fecIni.getText().trim().isEmpty()) {
         filtros.add(RowFilter.regexFilter("(?i)" + fecIni.getText(), 3)); 
     }
 
     if (!fecFin.getText().trim().isEmpty()) {
         filtros.add(RowFilter.regexFilter("(?i)" + fecFin.getText(), 4)); 
-    }
+    }*/
 
     if (filtros.isEmpty()) {
         trsfiltro.setRowFilter(null); // Si no hay filtros, se muestran todos los registros
