@@ -28,6 +28,8 @@ import javax.swing.table.TableRowSorter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author bryge
@@ -47,6 +49,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
     public GestionViajesApp() {
         initComponents();
        jComboBox1.setEnabled(false);
+       DefaultComboBoxModel<String> estados = new DefaultComboBoxModel<>();
+       estados.addElement("Registrado");
+       estados.addElement("En proceso");
+       estados.addElement("Finalizado");
+       jComboBox1.setModel(estados);
         dtm = (DefaultTableModel)tblViajes.getModel(); 
         
         
@@ -74,6 +81,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
     editar.setEnabled(true);
     modificar.setEnabled(false);
     limpiar.setEnabled(true);
+    jComboBox1.setEnabled(false);
+    jComboBox1.setSelectedIndex(0);
 }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -325,11 +334,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem2.setText("Documentación");
         jMenu2.add(jMenuItem2);
 
-        abreDirectorio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        abreDirectorio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         abreDirectorio.setText("Abrir directorio de CSV");
         abreDirectorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,7 +347,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
         });
         jMenu2.add(abreDirectorio);
 
-        exportar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        exportar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         exportar.setText("Exportar en CSV");
         exportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,7 +356,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
         });
         jMenu2.add(exportar);
 
-        salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -479,10 +488,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFecFin)
-                            .addComponent(lblFecIni)
-                            .addComponent(jLabel3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFecFin, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblFecIni)
+                                .addComponent(jLabel3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -524,7 +534,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
-        
+                jComboBox1.setEnabled(true);
                 filtro(); 
                 tblViajes.setRowSorter(trsfiltro); 
                 agregar.setEnabled(false); 
@@ -657,7 +667,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2ActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-   
+        jComboBox1.setEnabled(true);
+        
         if (tblViajes.getSelectedRow() == -1){
             JOptionPane.showMessageDialog(null, "No ha seleccionado un registro de la tabla", "ERROR AL MODIFICAR REGISTRO", JOptionPane.WARNING_MESSAGE);
             
@@ -690,14 +701,15 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
       
-      jComboBox1.setEnabled(true);
+      //jComboBox1.setEnabled(true);
        if (!camposvacios()){      
              
        dtm.setValueAt(origen.getText().trim(), filaSelec, 1);
        dtm.setValueAt(destino.getText().trim(), filaSelec, 2);
        dtm.setValueAt(jDateChooser1.getDate().toString(),filaSelec,3);
        dtm.setValueAt(jDateChooser2.getDate().toString(),filaSelec,4);
-             
+       dtm.setValueAt(jComboBox1.getSelectedItem().toString(),filaSelec,5);
+                    
         
         LimpiarCampos();
         inicializarBotones();
@@ -718,6 +730,21 @@ public class GestionViajesApp extends javax.swing.JFrame {
         destino.setText(String.valueOf(tblViajes.getValueAt(s, 2)));
        String dateString = String.valueOf(tblViajes.getValueAt(s, 3));
         String dateString1 = String.valueOf(tblViajes.getValueAt(s, 4));
+        String estado = String.valueOf(tblViajes.getValueAt(s, 5));
+        ComboBoxModel<String> status = jComboBox1.getModel();
+        System.out.println(estado);
+        System.out.println("combo: "+jComboBox1.getSelectedItem().toString());
+        for(int i = 0; i< status.getSize(); i++){
+            if(status.getElementAt(i).equals(estado)){
+                System.out.println("Estado tabla: "+estado);
+                System.out.println("Estado Opciones "+status.getElementAt(i));
+                System.out.println(status.getElementAt(i).equals(estado));
+                jComboBox1.setSelectedIndex(i);
+                //jComboBox1.setSelectedIndex(0); Siempre que se limpie
+                break;
+            }
+        }
+        
         SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", java.util.Locale.ENGLISH);
         try {
             // Convierte la cadena a un objeto Date
@@ -729,8 +756,6 @@ public class GestionViajesApp extends javax.swing.JFrame {
         } catch (ParseException e) {
             System.out.println("Error al analizar la fecha: " + e.getMessage());
         }
-        
-        jComboBox1.addItem(String.valueOf(tblViajes.getValueAt(s, 5)));
         
     }//GEN-LAST:event_tblViajesMouseClicked
   
