@@ -88,44 +88,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lblOrigen3" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="fecIni" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblFecIni" alignment="1" min="-2" pref="220" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="fecFin" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblFecFin" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ubiOrigen" alignment="0" pref="220" max="32767" attributes="0"/>
-                                  <Component id="origen" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblOrigen" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblOrigen1" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="destino" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblDestino" alignment="0" pref="220" max="32767" attributes="0"/>
-                                  <Component id="ubiDestino" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="latitudDestino" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblOrigen2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="longitudDestino" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblOrigen5" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -145,6 +107,45 @@
                           <Component id="jScrollPane1" pref="682" max="32767" attributes="0"/>
                           <Component id="jSeparator1" max="32767" attributes="0"/>
                           <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="jDateChooser1" min="-2" pref="133" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jDateChooser2" min="-2" pref="130" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="199" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblOrigen3" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblFecIni" min="-2" pref="220" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="lblFecFin" min="-2" pref="220" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ubiOrigen" alignment="0" pref="220" max="32767" attributes="0"/>
+                                  <Component id="origen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen1" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="destino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblDestino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ubiDestino" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="latitudDestino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="longitudDestino" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblOrigen5" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -219,18 +220,15 @@
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblFecIni" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="12" max="32767" attributes="0"/>
-                              <Component id="fecIni" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblFecFin" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="fecFin" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblFecIni" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblFecFin" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
                       <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -315,6 +313,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblViajesMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -407,29 +408,10 @@
         <Property name="text" type="java.lang.String" value="Fecha de inicio"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fecFin">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fecFinActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblFecFin">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha de Fin"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="fecIni">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
-      </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Seleccione la fecha de fin"/>
-      </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fecIniActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ubiOrigen">
       <Properties>
@@ -544,6 +526,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modificarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
     </Component>
   </SubComponents>
 </Form>
