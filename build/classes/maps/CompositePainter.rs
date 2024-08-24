@@ -1,1 +1,0 @@
-newviajes.CompositePainter

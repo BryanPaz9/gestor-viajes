@@ -13,7 +13,8 @@ import java.util.Date;
  */
 public class Viaje {
     int idViaje;
-    String origen,destino,latitudOrigen,latitudDestino,longitudOrigen,longitudDestino,estado;
+    String origen,destino,estado;
+    Double latitudOrigen,latitudDestino,longitudOrigen,longitudDestino;
     Date fechaSalida,fechaLlegada;
 
     public int getIdViaje() {
@@ -56,37 +57,38 @@ public class Viaje {
         this.destino = destino;
     }
 
-    public String getLatitudOrigen() {
+    public Double getLatitudOrigen() {
         return latitudOrigen;
     }
 
-    public void setLatitudOrigen(String latitudOrigen) {
+    public void setLatitudOrigen(Double latitudOrigen) {
         this.latitudOrigen = latitudOrigen;
     }
 
-    public String getLatitudDestino() {
+    public Double getLatitudDestino() {
         return latitudDestino;
     }
 
-    public void setLatitudDestino(String latitudDestino) {
+    public void setLatitudDestino(Double latitudDestino) {
         this.latitudDestino = latitudDestino;
     }
 
-    public String getLongitudOrigen() {
+    public Double getLongitudOrigen() {
         return longitudOrigen;
     }
 
-    public void setLongitudOrigen(String longitudOrigen) {
+    public void setLongitudOrigen(Double longitudOrigen) {
         this.longitudOrigen = longitudOrigen;
     }
 
-    public String getLongitudDestino() {
+    public Double getLongitudDestino() {
         return longitudDestino;
     }
 
-    public void setLongitudDestino(String longitudDestino) {
+    public void setLongitudDestino(Double longitudDestino) {
         this.longitudDestino = longitudDestino;
     }
+
 
     public String getEstado() {
         return estado;

@@ -45,6 +45,7 @@ import maps.CustomPainter;
 import maps.PolylinePainter;
 import maps.CompositePainter;
 import maps.MapViaje;
+import model.Viaje;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -683,7 +684,41 @@ private boolean camposvacios() {
     
     
     
-                  
+private List<Viaje> getViajesFromTable() {
+    List<Viaje> viajes = new ArrayList<>();
+    DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // El formato de fecha que quieres usar
+    
+    for (int i = 0; i < model.getRowCount(); i++) {
+        Viaje viaje = new Viaje();
+        viaje.setIdViaje((Integer) model.getValueAt(i, 0));
+        viaje.setOrigen((String) model.getValueAt(i, 1));
+        viaje.setDestino((String) model.getValueAt(i, 2));
+        
+        // Manejar fechas
+        Object fechaSalidaObj = model.getValueAt(i, 3);
+        Object fechaLlegadaObj = model.getValueAt(i, 4);
+        
+        if (fechaSalidaObj instanceof Date) {
+            viaje.setFechaSalida((Date) fechaSalidaObj);
+        }
+        if (fechaLlegadaObj instanceof Date) {
+            viaje.setFechaLlegada((Date) fechaLlegadaObj);
+        }
+
+            viaje.setLatitudOrigen(Double.valueOf((String) model.getValueAt(i, 6)));
+            viaje.setLongitudOrigen(Double.valueOf((String) model.getValueAt(i, 7)));
+            viaje.setLatitudDestino(Double.valueOf((String) model.getValueAt(i, 8)));
+            viaje.setLongitudDestino(Double.valueOf((String) model.getValueAt(i, 9)));
+        
+        viajes.add(viaje);
+    }
+    
+    return viajes;
+}
+
+
+        
     private void ubiDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubiDestinoActionPerformed
         // TODO add your handling code here:
         MapaSeleccionDestino mapaSeleccionDestino = new MapaSeleccionDestino(GestionViajesApp.this);
@@ -699,13 +734,19 @@ private boolean camposvacios() {
     }//GEN-LAST:event_latitudDestinoActionPerformed
 
     private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
-        // Obtener la fecha y hora actual
+        GestionController gestionController = new GestionController();
+    List<Viaje> listaViajes = getViajesFromTable();        
+    // Obtener la fecha y hora actual
         LocalDateTime fechaActual = LocalDateTime.now();
         // Crear un DateTimeFormatter con el formato deseado
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
         // Formatear la fecha
         String fechaexport = fechaActual.format(formato);
-        opciones.exportarViajesACSV("viajes-"+fechaexport+".csv");
+        gestionController.exportarViajesACSV(listaViajes,"viajes-"+fechaexport+".csv");
+        
+/*
+    String nombreArchivo = "viajes_exportados.csv"; // Puedes permitir al usuario elegir el nombre del archivo
+    gestionController.exportarViajesACSV(nombreArchivo, listaViajes);*/
     }//GEN-LAST:event_exportarActionPerformed
 
     private void longitudOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longitudOrigenActionPerformed

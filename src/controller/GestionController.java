@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.Viaje;
@@ -72,46 +73,53 @@ public class GestionController {
     }
     
     // Exportar viajes a CSV y guardar en un archivo
-    public void exportarViajesACSV(String nombreArchivo) {
-        String path = System.getProperty("user.dir");
-        System.out.println("El path actual es: " + path);
-        String directorioCSV = path+"/CSV/"+nombreArchivo;
+public void exportarViajesACSV(List<Viaje> viajes, String nombreArchivo) {
+    String path = System.getProperty("user.dir");
+    String directorioCSV = path + "/CSV/" + nombreArchivo;
 
-        StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("ID,Origen,Destino,FechaSalida,FechaLlegada,Estado\n");
-        for (Viaje viaje : viajes) {
-            csvBuilder.append(viaje.getIdViaje()).append(",")
-                    .append(viaje.getOrigen()).append(",")
-                    .append(viaje.getDestino()).append(",")
-                    .append(viaje.getFechaSalida()).append(",")
-                    .append(viaje.getFechaLlegada()).append(",")
-                    .append(viaje.getEstado()).append("\n");
-        }
+    StringBuilder csvBuilder = new StringBuilder();
+    csvBuilder.append("ID,Origen,Destino,FechaSalida,FechaLlegada,Estado,LatitudOrigen,LongitudOrigen,LatitudDestino,LongitudDestino\n");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(directorioCSV))) {
-            writer.write(csvBuilder.toString());
-            System.out.println("CSV exportado exitosamente a: "+directorioCSV);
-            
-            JOptionPane.showMessageDialog(null, "CSV exportado exitosamente a " + directorioCSV);
-            
-            int respuesta = JOptionPane.showConfirmDialog(
-            null, 
-            "¿Desea abrir el directorio?", 
-            "Documento exportado con éxito", 
-            JOptionPane.YES_NO_OPTION, 
-            JOptionPane.QUESTION_MESSAGE
-            );
+    // Definir el formato para las fechas
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            if (respuesta == JOptionPane.YES_OPTION) {
-                // Si se selecciona "Sí", termina la aplicación
-                this.abreDirectorio();
-            }
-        } catch (IOException e) {
-            System.err.println("Error al guardar el archivo CSV: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al guardar el archivo CSV: " + e.getMessage());
-        }
+    for (Viaje viaje : viajes) {
+        csvBuilder.append(viaje.getIdViaje()).append(",")
+                .append(viaje.getOrigen()).append(",")
+                .append(viaje.getDestino()).append(",")
+                .append(viaje.getFechaSalida() != null ? dateFormat.format(viaje.getFechaSalida()) : "").append(",")
+                .append(viaje.getFechaLlegada() != null ? dateFormat.format(viaje.getFechaLlegada()) : "").append(",")
+                .append(viaje.getEstado()).append(",")
+                .append(viaje.getLatitudOrigen()).append(",")
+                .append(viaje.getLongitudOrigen()).append(",")
+                .append(viaje.getLatitudDestino()).append(",")
+                .append(viaje.getLongitudDestino()).append("\n");
     }
-    
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(directorioCSV))) {
+        writer.write(csvBuilder.toString());
+        System.out.println("CSV exportado exitosamente a: " + directorioCSV);
+
+        JOptionPane.showMessageDialog(null, "CSV exportado exitosamente a " + directorioCSV);
+
+        int respuesta = JOptionPane.showConfirmDialog(
+            null,
+            "¿Desea abrir el directorio?",
+            "Documento exportado con éxito",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            // Si se selecciona "Sí", abrir el directorio
+            abreDirectorio();
+        }
+    } catch (IOException e) {
+        System.err.println("Error al guardar el archivo CSV: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al guardar el archivo CSV: " + e.getMessage());
+    }
+}
+
     public void abreDirectorio(){
             // TODO add your handling code here:
         String path = System.getProperty("user.dir");
