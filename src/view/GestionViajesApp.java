@@ -789,6 +789,22 @@ public class GestionViajesApp extends javax.swing.JFrame {
         filtros.add(RowFilter.regexFilter("(?i)" + destino.getText(), 2)); 
 
     }
+    
+    
+    
+    if (jDateChooser1.getDate() != null && !jDateChooser1.getDate().toString().trim().isEmpty()){
+        filtros.add(RowFilter.regexFilter("(?i)" + jDateChooser1.getDate(), 3)); 
+    }
+    
+     if (jDateChooser2.getDate() != null && !jDateChooser2.getDate().toString().trim().isEmpty()){
+        filtros.add(RowFilter.regexFilter("(?i)" + jDateChooser2.getDate(), 4)); 
+        System.out.println("Fc2: "+jDateChooser2.getDate().toString());
+    }
+    
+    if(!jComboBox1.getSelectedItem().toString().trim().isEmpty()){
+    filtros.add(RowFilter.regexFilter("(?i)" + jComboBox1.getSelectedItem(), 5));
+    }
+    
 /*
     if (!fecIni.getText().trim().isEmpty()) {
         filtros.add(RowFilter.regexFilter("(?i)" + fecIni.getText(), 3)); 
