@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Bryger/Desktop/progra2/gestor-viajes/src/view/GestionViajesApp.java</file>
-            <file>file:/C:/Users/Bryger/Desktop/progra2/gestor-viajes/src/maps/MapaSeleccionOrigen.java</file>
-            <file>file:/C:/Users/Bryger/Desktop/progra2/gestor-viajes/src/maps/MapaSeleccionDestino.java</file>
+            <file>file:/C:/Users/bryge/Desktop/prouectoprogra2/gestor-viajes/src/model/Viaje.java</file>
+            <file>file:/C:/Users/bryge/Desktop/prouectoprogra2/gestor-viajes/src/maps/MapaSeleccionOrigen.java</file>
+            <file>file:/C:/Users/bryge/Desktop/prouectoprogra2/gestor-viajes/src/view/GestionViajesApp.java</file>
+            <file>file:/C:/Users/bryge/Desktop/prouectoprogra2/gestor-viajes/src/controller/GestionController.java</file>
+            <file>file:/C:/Users/bryge/Desktop/prouectoprogra2/gestor-viajes/src/model/GestionViajes.java</file>
         </group>
     </open-files>
 </project-private>

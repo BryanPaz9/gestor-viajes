@@ -46,6 +46,8 @@ import maps.PolylinePainter;
 import maps.CompositePainter;
 import maps.MapViaje;
 import model.Viaje;
+import db.Conexion;
+import java.sql.*;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -166,6 +168,12 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         abreDirectorio = new javax.swing.JMenuItem();
         exportar = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        viajes_mes = new javax.swing.JMenuItem();
+        vehiculo_viajes = new javax.swing.JMenuItem();
+        cliente_viajes = new javax.swing.JMenuItem();
+        ganancias_mes = new javax.swing.JMenuItem();
+        vehiculo_recorrido = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -399,6 +407,50 @@ public class GestionViajesApp extends javax.swing.JFrame {
             }
         });
         jMenu2.add(exportar);
+
+        jMenu1.setText("Reportes");
+
+        viajes_mes.setText("Viajes en mes");
+        viajes_mes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viajes_mesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(viajes_mes);
+
+        vehiculo_viajes.setText("Vehiculo con mas viajes");
+        vehiculo_viajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vehiculo_viajesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(vehiculo_viajes);
+
+        cliente_viajes.setText("Cliente con mas viajes");
+        cliente_viajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cliente_viajesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(cliente_viajes);
+
+        ganancias_mes.setText("Ganancias en el mes");
+        ganancias_mes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ganancias_mesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(ganancias_mes);
+
+        vehiculo_recorrido.setText("Vehículo con más recorrido");
+        vehiculo_recorrido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vehiculo_recorridoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(vehiculo_recorrido);
+
+        jMenu2.add(jMenu1);
 
         salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         salir.setText("Salir");
@@ -682,40 +734,6 @@ private boolean camposvacios() {
 
     
     
-    
-  /*  
-private List<Viaje> getViajesFromTable() {
-    List<Viaje> viajes = new ArrayList<>();
-    DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // El formato de fecha que quieres usar
-    
-    for (int i = 0; i < model.getRowCount(); i++) {
-        Viaje viaje = new Viaje();
-        viaje.setIdViaje((Integer) model.getValueAt(i, 0));
-        viaje.setOrigen((String) model.getValueAt(i, 1));
-        viaje.setDestino((String) model.getValueAt(i, 2));
-        
-        // Manejar fechas
-        Object fechaSalidaObj = model.getValueAt(i, 3);
-        Object fechaLlegadaObj = model.getValueAt(i, 4);
-        
-        if (fechaSalidaObj instanceof Date) {
-            viaje.setFechaSalida((Date) fechaSalidaObj);
-        }
-        if (fechaLlegadaObj instanceof Date) {
-            viaje.setFechaLlegada((Date) fechaLlegadaObj);
-        }
-
-            viaje.setLatitudOrigen(Double.valueOf((String) model.getValueAt(i, 6)));
-            viaje.setLongitudOrigen(Double.valueOf((String) model.getValueAt(i, 7)));
-            viaje.setLatitudDestino(Double.valueOf((String) model.getValueAt(i, 8)));
-            viaje.setLongitudDestino(Double.valueOf((String) model.getValueAt(i, 9)));
-        
-        viajes.add(viaje);
-    }
-    
-    return viajes;
-}*/
 private List<Viaje> getViajesFromTable() {
     List<Viaje> viajes = new ArrayList<>();
     DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
@@ -988,6 +1006,35 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
         // Crea y muestra el nuevo JFrame con el mapa
         new MapViaje(origen, destino, 10);
     }//GEN-LAST:event_abrirMapaActionPerformed
+
+    private void viajes_mesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viajes_mesActionPerformed
+        // TODO add your handling code here:
+        String mes = "08";
+        String anio= "2024";
+        opciones.viajes_por_mes(mes, anio);
+    }//GEN-LAST:event_viajes_mesActionPerformed
+
+    private void vehiculo_viajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculo_viajesActionPerformed
+        // TODO add your handling code here:
+        opciones.vehiculo_cantidad_viajes();
+    }//GEN-LAST:event_vehiculo_viajesActionPerformed
+
+    private void cliente_viajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cliente_viajesActionPerformed
+        // TODO add your handling code here:
+        opciones.cliente_cantidad_solicitudes();
+    }//GEN-LAST:event_cliente_viajesActionPerformed
+
+    private void ganancias_mesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ganancias_mesActionPerformed
+        // TODO add your handling code here:
+        String mes = "08";
+        String anio= "2024";
+        opciones.ganancias_mes(mes, anio);
+    }//GEN-LAST:event_ganancias_mesActionPerformed
+
+    private void vehiculo_recorridoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculo_recorridoActionPerformed
+        // TODO add your handling code here:
+        opciones.vehiculo_recorrido();
+    }//GEN-LAST:event_vehiculo_recorridoActionPerformed
   
     public void filtro() {
     // Creamos una lista de RowFilters para almacenar todos los filtros
@@ -1137,17 +1184,20 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     private javax.swing.JMenuItem abreDirectorio;
     private javax.swing.JButton abrirMapa;
     private javax.swing.JButton agregar;
+    private javax.swing.JMenuItem cliente_viajes;
     private javax.swing.JTextField destino;
     private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
     private javax.swing.JMenuItem exportar;
     private javax.swing.JButton filtrar;
+    private javax.swing.JMenuItem ganancias_mes;
     private javax.swing.JComboBox jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1173,5 +1223,8 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     private javax.swing.JTable tblViajes;
     private javax.swing.JButton ubiDestino;
     private javax.swing.JButton ubiOrigen;
+    private javax.swing.JMenuItem vehiculo_recorrido;
+    private javax.swing.JMenuItem vehiculo_viajes;
+    private javax.swing.JMenuItem viajes_mes;
     // End of variables declaration//GEN-END:variables
 }
