@@ -19,6 +19,10 @@ import javax.swing.JOptionPane;
 import view.GestionViajesApp;
 import db.Conexion;
 import java.sql.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -117,6 +121,8 @@ public class GestionController {
         }
     }
     
+    
+    
     public void viajes_por_mes(String mes, String anio) {
         String sql = "SELECT CODIGO_VIAJE, USU.NOMBRE || ' ' || USU.APELLIDO AS SOLICITANTE, " +
                 "CLI.NOMBRE AS CLIENTE, FK_PLACA, COSTO, ORI.NOMBRE AS ORIGEN, " +
@@ -137,14 +143,44 @@ public class GestionController {
             System.out.println(sql);
             ResultSet resultado = stmt.executeQuery();
             if (!resultado.isBeforeFirst()) { // Verifica si hay resultados
-            System.out.println("No se encontraron viajes para el mes y año especificados.");
+                //System.out.println("No se encontraron viajes para el mes y año especificados.");
+                JOptionPane.showMessageDialog(null, "No se encontraron viajes para el mes y año especificados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             } else {
-                int i=0;
+                // Crear un modelo de tabla con los nombres de columnas
+                String[] columnas = {"Código", "Solicitante", "Cliente", "Placa", "Costo", "Origen", 
+                                     "Destino", "Distancia", "Fecha Salida", "Fecha Llegada", "Estado", "Fecha Registro"};
+                DefaultTableModel model = new DefaultTableModel(columnas, 0); // 0 es el número de filas inicial
+
+                // Llenar el modelo con los datos obtenidos
                 while (resultado.next()) {
-                    // Procesar resultados
-                    i++;
-                    System.out.println(i+"  Solicitante: " + resultado.getString("SOLICITANTE"));
+                    Object[] fila = new Object[12];  // Número de columnas
+                    fila[0] = resultado.getInt("CODIGO_VIAJE");
+                    fila[1] = resultado.getString("SOLICITANTE");
+                    fila[2] = resultado.getString("CLIENTE");
+                    fila[3] = resultado.getString("FK_PLACA");
+                    fila[4] = resultado.getDouble("COSTO");
+                    fila[5] = resultado.getString("ORIGEN");
+                    fila[6] = resultado.getString("DESTINO");
+                    fila[7] = resultado.getDouble("DISTANCIA");
+                    fila[8] = resultado.getDate("FECHA_SALIDA");
+                    fila[9] = resultado.getDate("FECHA_LLEGADA");
+                    fila[10] = resultado.getString("ESTADO");
+                    fila[11] = resultado.getDate("FECHA_REGISTRO");
+
+                    model.addRow(fila); // Añadir la fila al modelo
                 }
+
+                // Crear la tabla y asignarle el modelo
+                JTable table = new JTable(model);
+                JScrollPane scrollPane = new JScrollPane(table); // Añadir la tabla a un JScrollPane para scroll
+                table.setFillsViewportHeight(true);
+
+                // Mostrar la tabla en una ventana nueva
+                JFrame frame = new JFrame("Resultados de Viajes");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.add(scrollPane);
+                frame.setSize(800, 600); // Ajustar el tamaño de la ventana
+                frame.setVisible(true);  // Hacer visible la ventana
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,27 +188,36 @@ public class GestionController {
         }
     }
     
-    public void vehiculo_cantidad_viajes(){
+    public String vehiculo_cantidad_viajes(){
         String sql="SELECT FK_PLACA,COUNT(*) AS Viajes_realizados,SUM(DISTANCIA) AS DISTANCIA_TOTAL_RECORRIDA " +
         "FROM VIAJES GROUP BY FK_PLACA ORDER BY Viajes_realizados Desc  FETCH FIRST 1 ROWS ONLY";
         try(Connection conn = Conexion.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
             ResultSet res = stmt.executeQuery();
+            String response = "";
             if(!res.isBeforeFirst()){
-                System.out.println("No se encontraron vehículos. Verifique los datos");
+                
+                response = "No se encontraron vehículos. Verifique los datos";
+                return response;
             }else{
                 while(res.next()){
-                    System.out.println("Placa: "+res.getString("FK_PLACA"));
-                    System.out.println("Viajes realizados: "+res.getString("VIAJES_REALIZADOS"));
-                    System.out.println("Distancia total recorrida por el vehículo: "+res.getString("DISTANCIA_TOTAL_RECORRIDA")+" Km.");
+                    String placa = res.getString("FK_PLACA");
+                    String viajes_realizados = res.getString("VIAJES_REALIZADOS");
+                    String distancia_recorrida= res.getString("DISTANCIA_TOTAL_RECORRIDA");
+                    response = "Placa: "+placa+"\n"+
+                            "Viajes realizados: "+viajes_realizados+"\n"+
+                            "Distancia total recorrida "+distancia_recorrida+" Km.";
+                    return response;
+                    
                 }
             }
         }catch(SQLException e){
             e.printStackTrace();
             System.out.println(sql);
         }
+        return null;
     }
     
-    public void cliente_cantidad_solicitudes (){
+    public String cliente_cantidad_solicitudes (){
         String sql="SELECT  " +
             "CLI.NOMBRE AS CLIENTE, " +
             "COUNT(VIA.CODIGO_VIAJE) AS TOTAL_VIAJES, " +
@@ -187,23 +232,33 @@ public class GestionController {
             "FETCH FIRST 1 ROWS ONLY";
         try(Connection conn = Conexion.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
             ResultSet res = stmt.executeQuery();
+            String response = "";
             if(!res.isBeforeFirst()){
-                System.out.println("No se encontraron vehículos. Verifique los datos");
+                response = "No se encontraron vehículos. Verifique los datos";
+                return response;
             }else{
                 while(res.next()){
-                    System.out.println("Cliente: "+res.getString("CLIENTE"));
-                    System.out.println("Viajes realizados: "+res.getString("TOTAL_VIAJES"));
-                    System.out.println("Costo Total: Q. "+res.getString("COSTO_TOTAL"));
-                    System.out.println("Distancia Total: "+res.getString("DISTANCIA_TOTAL")+" Km.");
+                    String cliente = res.getString("CLIENTE");
+                    String viajes_realizados = res.getString("TOTAL_VIAJES");
+                    String costo= res.getString("COSTO_TOTAL");
+                    String distancia= res.getString("DISTANCIA_TOTAL");
+                    response = "Cliente: "+cliente+"\n"+
+                            "Viajes realizados: "+viajes_realizados+"\n"+
+                            "Total gastado: Q. "+costo+"\n"+
+                            "Distancia total recorrida "+distancia+" Km.";
+                    return response;
                 }
             }
         }catch(SQLException e){
             e.printStackTrace();
             System.out.println(sql);
         }
-        
+        return null;
     }
-    public void ganancias_mes(String mes,String anio){
+    public String ganancias_mes(String mes,String anio){
+        
+        
+        
         String sql="SELECT SUM(COSTO)AS TOTAL_GANANCIA " +
         "FROM VIAJES "+
         "WHERE FECHA_LLEGADA BETWEEN TO_DATE ('01-"+mes+"-"+anio+"','DD-MM-YYYY') "+ 
@@ -215,31 +270,41 @@ public class GestionController {
             }else{
                 while(res.next()){
                     System.out.println("Total de ganancias en el mes: "+res.getString("TOTAL_GANANCIA"));
+                    return res.getString("TOTAL_GANANCIA");
                 }
             }
         }catch(SQLException e){
             e.printStackTrace();
             System.out.println(sql);
         }
+        return null;
     }
-    public void vehiculo_recorrido(){
+    
+    public String vehiculo_recorrido(){
         String sql="SELECT FK_PLACA,COUNT(*) AS Viajes_realizados,SUM(DISTANCIA) AS DISTANCIA_TOTAL_RECORRIDA " +
         "FROM VIAJES GROUP BY FK_PLACA ORDER BY DISTANCIA_TOTAL_RECORRIDA Desc FETCH FIRST 1 ROWS ONLY";
         try(Connection conn = Conexion.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
             ResultSet res = stmt.executeQuery();
+            String response ="";
             if(!res.isBeforeFirst()){
-                System.out.println("No ses encontraron vehiculos. Verifique los datos.");
+                response = "No ses encontraron vehiculos. Verifique los datos.";
+                return response;
             }else{
                 while(res.next()){
-                    System.out.println("Vehículo con mayor recorrido: "+res.getString("FK_PLACA"));
-                    System.out.println("Viajes realizados: "+res.getString("VIAJES_REALIZADOS"));
-                    System.out.println("Distancia total recorrida: "+res.getString("DISTANCIA_TOTAL_RECORRIDA")+" Km.");
+                    String placa = res.getString("FK_PLACA");
+                    String viajes = res.getString("VIAJES_REALIZADOS");
+                    String distancia = res.getString("DISTANCIA_TOTAL_RECORRIDA");
+                    response = "Placa: "+placa+"\n"+
+                            "Viajes realizados: "+viajes+"\n"+
+                            "Distancia total recorrida "+distancia+" Km.";
+                    return response;
                 }
             }
         
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return null;
     }
     
 }

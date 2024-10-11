@@ -49,6 +49,9 @@ import model.Viaje;
 import db.Conexion;
 import static db.Conexion.getConnection;
 import java.sql.*;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -1141,31 +1144,173 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
 
     private void viajes_mesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viajes_mesActionPerformed
         // TODO add your handling code here:
-        String mes = "08";
-        String anio= "2024";
-        opciones.viajes_por_mes(mes, anio);
+        JPanel panel = new JPanel();
+        // Crear los JComboBox para mes y año
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        JComboBox<String> comboMes = new JComboBox<>(meses);
+
+        Integer[] anios = new Integer[3]; // Crear un rango de años (por ejemplo, 50 años a partir de 2000)
+        int yearStart = 2023;
+        for (int i = 0; i < anios.length; i++) {
+            anios[i] = yearStart + i;
+        }
+        JComboBox<Integer> comboAno = new JComboBox<>(anios);
+
+            // Añadir los JComboBox al panel
+        panel.add(new JLabel("Mes:"));
+        panel.add(comboMes);
+        panel.add(new JLabel("Año:"));
+        panel.add(comboAno);
+        
+        int result = JOptionPane.showConfirmDialog(null, panel, "Seleccionar Mes y Año para ver viajes", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            // Obtener los valores seleccionados
+            String mesSeleccionado = (String) comboMes.getSelectedItem();
+            Integer anoSeleccionado = (Integer) comboAno.getSelectedItem();
+            System.out.println("Mes seleccionado: " + mesSeleccionado);
+            System.out.println("Año seleccionado: " + anoSeleccionado);
+            String mes = "";
+            String anio = String.valueOf(anoSeleccionado);
+            switch(mesSeleccionado){
+                case "Enero":
+                mes = "01";
+                break;
+                case "Febrero":
+                mes = "02";
+                break;
+                case "Marzo":
+                mes = "03";
+                break;
+                case "Abril":
+                mes = "04";
+                break;     
+                case "Mayo":
+                mes= "05";
+                break;
+                case "Junio":
+                mes = "06";
+                break;
+                case "Julio":
+                mes = "07";
+                break;
+                case "Agosto":
+                mes = "08";
+                break;     
+                case "Septiembre":
+                mes = "09";
+                break;
+                case "Octubre":
+                mes = "10";
+                break;
+                case "Noviembre":
+                mes = "11";
+                break;
+                case "Diciembre":
+                mes = "12";
+                break;                     
+            }
+
+            opciones.viajes_por_mes(mes, anio);
+        }
     }//GEN-LAST:event_viajes_mesActionPerformed
 
     private void vehiculo_viajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculo_viajesActionPerformed
         // TODO add your handling code here:
-        opciones.vehiculo_cantidad_viajes();
+        String viajes_vehiculo = opciones.vehiculo_cantidad_viajes();
+        JOptionPane.showMessageDialog(null, viajes_vehiculo,"Vehiculo con mayor cantidad de viajes",  JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_vehiculo_viajesActionPerformed
 
     private void cliente_viajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cliente_viajesActionPerformed
         // TODO add your handling code here:
-        opciones.cliente_cantidad_solicitudes();
+        String cliente = opciones.cliente_cantidad_solicitudes();
+        JOptionPane.showMessageDialog(null, cliente, "Cliente con mayor cantidad de solicitudes", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cliente_viajesActionPerformed
 
     private void ganancias_mesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ganancias_mesActionPerformed
         // TODO add your handling code here:
-        String mes = "08";
-        String anio= "2024";
-        opciones.ganancias_mes(mes, anio);
+        JPanel panel = new JPanel();
+        // Crear los JComboBox para mes y año
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        JComboBox<String> comboMes = new JComboBox<>(meses);
+
+        Integer[] anios = new Integer[3]; // Crear un rango de años (por ejemplo, 50 años a partir de 2000)
+        int yearStart = 2023;
+        for (int i = 0; i < anios.length; i++) {
+            anios[i] = yearStart + i;
+        }
+        JComboBox<Integer> comboAno = new JComboBox<>(anios);
+
+            // Añadir los JComboBox al panel
+        panel.add(new JLabel("Mes:"));
+        panel.add(comboMes);
+        panel.add(new JLabel("Año:"));
+        panel.add(comboAno);
+        
+        int result = JOptionPane.showConfirmDialog(null, panel, "Seleccionar Mes y Año para ver ganancias", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            // Obtener los valores seleccionados
+            String mesSeleccionado = (String) comboMes.getSelectedItem();
+            Integer anoSeleccionado = (Integer) comboAno.getSelectedItem();
+            System.out.println("Mes seleccionado: " + mesSeleccionado);
+            System.out.println("Año seleccionado: " + anoSeleccionado);
+            String mes = "";
+            String anio = String.valueOf(anoSeleccionado);
+            switch(mesSeleccionado){
+                case "Enero":
+                mes = "01";
+                break;
+                case "Febrero":
+                mes = "02";
+                break;
+                case "Marzo":
+                mes = "03";
+                break;
+                case "Abril":
+                mes = "04";
+                break;     
+                case "Mayo":
+                mes= "05";
+                break;
+                case "Junio":
+                mes = "06";
+                break;
+                case "Julio":
+                mes = "07";
+                break;
+                case "Agosto":
+                mes = "08";
+                break;     
+                case "Septiembre":
+                mes = "09";
+                break;
+                case "Octubre":
+                mes = "10";
+                break;
+                case "Noviembre":
+                mes = "11";
+                break;
+                case "Diciembre":
+                mes = "12";
+                break;                     
+            }
+
+            String ganancias = opciones.ganancias_mes(mes, anio);
+            if(ganancias == null){
+                JOptionPane.showMessageDialog(null, "No se encontraron datos de ganancias del mes seleccionado", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Ganancias durante el mes de "+mesSeleccionado+" de "+anoSeleccionado+" :\n"+"Q "+ganancias,"Ganancias del mes", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_ganancias_mesActionPerformed
 
     private void vehiculo_recorridoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculo_recorridoActionPerformed
         // TODO add your handling code here:
-        opciones.vehiculo_recorrido();
+        String vehiculo = opciones.vehiculo_recorrido();
+        JOptionPane.showMessageDialog(null, vehiculo, "Vehiculo con myor recorrido", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_vehiculo_recorridoActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
