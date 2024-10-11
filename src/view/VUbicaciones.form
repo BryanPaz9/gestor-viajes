@@ -29,68 +29,70 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="agregar" min="-2" pref="110" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="eliminar" min="-2" pref="110" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="limpiar" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editar" min="-2" pref="97" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="lblOrigen3" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="ubiOrigen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="origen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblOrigen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblOrigen1" min="-2" pref="220" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblDestino" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ubiDestino" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen2" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOrigen5" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="destino" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="latitudDestino" min="-2" pref="212" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="longitudDestino" min="-2" pref="212" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-          </Group>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" min="-2" pref="682" max="-2" attributes="0"/>
-                          <Component id="regresarAdminUbi" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="regresarAdminUbi" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="682" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lblNombre" min="-2" pref="173" max="-2" attributes="0"/>
+                                  <Component id="name" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblOrigen2" min="-2" pref="70" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                              <Component id="lblOrigen6" min="-2" pref="85" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="lon" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen4" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lat" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="code" max="32767" attributes="0"/>
+                          <Component id="agregar" pref="110" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="eliminar" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                              <Component id="limpiar" min="-2" pref="112" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="editar" min="-2" pref="97" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="ubicacion" min="-2" pref="112" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -99,52 +101,35 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="regresarAdminUbi" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="33" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblOrigen" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="origen" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblDestino" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="destino" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ubiOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ubiDestino" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="lblOrigen3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                      <Component id="lblNombre" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="name" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblOrigen1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="latitudOrigen" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblOrigen2" min="-2" max="-2" attributes="0"/>
+                      <Component id="lat" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="latitudDestino" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblOrigen4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblOrigen6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblOrigen2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ubicacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="code" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblOrigen4" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblOrigen5" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="longitudDestino" max="32767" attributes="0"/>
-                  <Component id="longitudOrigen" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="eliminar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -155,9 +140,9 @@
                       <Component id="editar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="183" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -170,82 +155,20 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblViajes">
+        <Component class="javax.swing.JTable" name="tblUbicaciones">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="10" rowCount="0">
-                <Column editable="false" title="ID" type="java.lang.Integer"/>
-                <Column editable="true" title="Origen" type="java.lang.String"/>
-                <Column editable="true" title="Destino" type="java.lang.String"/>
-                <Column editable="true" title="Fecha de Inicio" type="java.lang.String"/>
-                <Column editable="true" title="Fecha de Fin" type="java.lang.String"/>
-                <Column editable="true" title="Estado" type="java.lang.Object"/>
-                <Column editable="false" title="Lat. Or." type="java.lang.Double"/>
-                <Column editable="false" title="Lon. Or" type="java.lang.Double"/>
-                <Column editable="false" title="Lat. Des." type="java.lang.Double"/>
-                <Column editable="false" title="Long. Des" type="java.lang.Double"/>
-              </Table>
+              <Table columnCount="0" rowCount="0"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="5" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="35" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-              </TableColumnModel>
+              <TableColumnModel selectionModel="0"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblViajesMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblUbicacionesMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
@@ -276,44 +199,27 @@
         <Property name="text" type="java.lang.String" value="Ubicaciones"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="origen">
+    <Component class="javax.swing.JTextField" name="name">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="origenActionPerformed"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="origenKeyTyped"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nameKeyTyped"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblOrigen">
+    <Component class="javax.swing.JLabel" name="lblNombre">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Origen"/>
+        <Property name="text" type="java.lang.String" value="Nombre"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="destino">
+    <Component class="javax.swing.JButton" name="ubicacion">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
-      </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de destino."/>
-      </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="destinoActionPerformed"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="destinoKeyTyped"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblDestino">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Destino"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="ubiOrigen">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Seleccionar Ubicaci&#xf3;n de Origen"/>
+        <Property name="text" type="java.lang.String" value="Abrir Mapa"/>
         <Property name="actionCommand" type="java.lang.String" value="AgregarViaje"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ubiOrigenActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ubicacionActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="agregar">
@@ -326,75 +232,32 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agregarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="ubiDestino">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Seleccionar Ubicaci&#xf3;n de Destino"/>
-        <Property name="actionCommand" type="java.lang.String" value="AgregarViaje"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ubiDestinoActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblOrigen1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Latitud Origen"/>
+        <Property name="text" type="java.lang.String" value="Latitud"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="latitudOrigen">
+    <Component class="javax.swing.JTextField" name="lat">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="latitudOrigenActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="latActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="latitudDestino">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="latitudDestinoActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblOrigen2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Latitud Destino"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblOrigen3">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Coordenadas de las ubicaciones"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblOrigen4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Longitud Origen"/>
+        <Property name="text" type="java.lang.String" value="Longitud"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="longitudOrigen">
+    <Component class="javax.swing.JTextField" name="lon">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="longitudOrigenActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblOrigen5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Longitud Destino"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="longitudDestino">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="longitudDestinoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="editar">
@@ -413,6 +276,25 @@
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regresarAdminUbiMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regresarAdminUbiActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblOrigen6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Coordenadas"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblOrigen2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="code">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="codeActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

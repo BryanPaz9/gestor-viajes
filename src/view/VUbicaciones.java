@@ -6,6 +6,8 @@
 package view;
 import com.toedter.calendar.JDateChooser;
 import controller.GestionController;
+import db.Conexion;
+import static db.Conexion.getConnection;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -16,6 +18,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -66,10 +72,44 @@ import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
 public class VUbicaciones extends javax.swing.JFrame {
     GestionController opciones = new GestionController();
     private DefaultTableModel dtm;
-    private Object[] datos = new Object[10];
-    private int filaSelec;
     private TableRowSorter trsfiltro;
     String filtro;
+    
+    private String codigo;
+    private String nombre;
+    private Double latitud;
+    private Double longitud;
+    
+    public void setCodigo(String codigo){
+        this.codigo = codigo;
+    }
+    public String getCodigo(){
+        return codigo;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
     
     
     /**
@@ -89,19 +129,8 @@ public class VUbicaciones extends javax.swing.JFrame {
      */
     public VUbicaciones() {
         initComponents();
-       DefaultComboBoxModel<String> estados = new DefaultComboBoxModel<>();
-       estados.addElement("Registrado");
-       estados.addElement("En proceso");
-       estados.addElement("Finalizado");
-        dtm = (DefaultTableModel)tblViajes.getModel(); 
-        
-        
-        /*setResizable(false);
-        
-        // Opcional: puedes establecer un tamaño fijo utilizando setSize
-        setSize(1200, 800);*/
+        refreshTable();    
         setLocationRelativeTo(null);
-        //setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
     }
  
 
@@ -112,91 +141,47 @@ public class VUbicaciones extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    // Método para inicializar el estado de los botones
-    private void inicializarBotones() {
-    agregar.setEnabled(true);
-    eliminar.setEnabled(true);
-    editar.setEnabled(true);
-    limpiar.setEnabled(true);
-}
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblViajes = new javax.swing.JTable();
+        tblUbicaciones = new javax.swing.JTable();
         eliminar = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        origen = new javax.swing.JTextField();
-        lblOrigen = new javax.swing.JLabel();
-        destino = new javax.swing.JTextField();
-        lblDestino = new javax.swing.JLabel();
-        ubiOrigen = new javax.swing.JButton();
+        name = new javax.swing.JTextField();
+        lblNombre = new javax.swing.JLabel();
+        ubicacion = new javax.swing.JButton();
         agregar = new javax.swing.JButton();
-        ubiDestino = new javax.swing.JButton();
         lblOrigen1 = new javax.swing.JLabel();
-        latitudOrigen = new javax.swing.JTextField();
-        latitudDestino = new javax.swing.JTextField();
-        lblOrigen2 = new javax.swing.JLabel();
-        lblOrigen3 = new javax.swing.JLabel();
+        lat = new javax.swing.JTextField();
         lblOrigen4 = new javax.swing.JLabel();
-        longitudOrigen = new javax.swing.JTextField();
-        lblOrigen5 = new javax.swing.JLabel();
-        longitudDestino = new javax.swing.JTextField();
+        lon = new javax.swing.JTextField();
         editar = new javax.swing.JButton();
         regresarAdminUbi = new javax.swing.JButton();
+        lblOrigen6 = new javax.swing.JLabel();
+        lblOrigen2 = new javax.swing.JLabel();
+        code = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        tblViajes.setModel(new javax.swing.table.DefaultTableModel(
+        tblUbicaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Origen", "Destino", "Fecha de Inicio", "Fecha de Fin", "Estado", "Lat. Or.", "Lon. Or", "Lat. Des.", "Long. Des"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblViajes.addMouseListener(new java.awt.event.MouseAdapter() {
+        ));
+        tblUbicaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblViajesMouseClicked(evt);
+                tblUbicacionesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblViajes);
-        if (tblViajes.getColumnModel().getColumnCount() > 0) {
-            tblViajes.getColumnModel().getColumn(0).setResizable(false);
-            tblViajes.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tblViajes.getColumnModel().getColumn(1).setResizable(false);
-            tblViajes.getColumnModel().getColumn(3).setPreferredWidth(15);
-            tblViajes.getColumnModel().getColumn(4).setResizable(false);
-            tblViajes.getColumnModel().getColumn(4).setPreferredWidth(15);
-            tblViajes.getColumnModel().getColumn(5).setResizable(false);
-            tblViajes.getColumnModel().getColumn(5).setPreferredWidth(35);
-            tblViajes.getColumnModel().getColumn(6).setResizable(false);
-            tblViajes.getColumnModel().getColumn(6).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(7).setResizable(false);
-            tblViajes.getColumnModel().getColumn(7).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(8).setResizable(false);
-            tblViajes.getColumnModel().getColumn(8).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(9).setResizable(false);
-            tblViajes.getColumnModel().getColumn(9).setPreferredWidth(1);
-        }
+        jScrollPane1.setViewportView(tblUbicaciones);
 
         eliminar.setText("Eliminar");
         eliminar.setActionCommand("AgregarViaje");
@@ -217,39 +202,25 @@ public class VUbicaciones extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Ubicaciones");
 
-        origen.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        origen.addActionListener(new java.awt.event.ActionListener() {
+        name.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
+        name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                origenActionPerformed(evt);
+                nameActionPerformed(evt);
             }
         });
-        origen.addKeyListener(new java.awt.event.KeyAdapter() {
+        name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                origenKeyTyped(evt);
+                nameKeyTyped(evt);
             }
         });
 
-        lblOrigen.setText("Origen");
+        lblNombre.setText("Nombre");
 
-        destino.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        destino.addActionListener(new java.awt.event.ActionListener() {
+        ubicacion.setText("Abrir Mapa");
+        ubicacion.setActionCommand("AgregarViaje");
+        ubicacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                destinoActionPerformed(evt);
-            }
-        });
-        destino.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                destinoKeyTyped(evt);
-            }
-        });
-
-        lblDestino.setText("Destino");
-
-        ubiOrigen.setText("Seleccionar Ubicación de Origen");
-        ubiOrigen.setActionCommand("AgregarViaje");
-        ubiOrigen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ubiOrigenActionPerformed(evt);
+                ubicacionActionPerformed(evt);
             }
         });
 
@@ -266,54 +237,23 @@ public class VUbicaciones extends javax.swing.JFrame {
             }
         });
 
-        ubiDestino.setText("Seleccionar Ubicación de Destino");
-        ubiDestino.setActionCommand("AgregarViaje");
-        ubiDestino.addActionListener(new java.awt.event.ActionListener() {
+        lblOrigen1.setText("Latitud");
+
+        lat.setEditable(false);
+        lat.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
+        lat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ubiDestinoActionPerformed(evt);
+                latActionPerformed(evt);
             }
         });
 
-        lblOrigen1.setText("Latitud Origen");
+        lblOrigen4.setText("Longitud");
 
-        latitudOrigen.setEditable(false);
-        latitudOrigen.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        latitudOrigen.addActionListener(new java.awt.event.ActionListener() {
+        lon.setEditable(false);
+        lon.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
+        lon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                latitudOrigenActionPerformed(evt);
-            }
-        });
-
-        latitudDestino.setEditable(false);
-        latitudDestino.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        latitudDestino.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                latitudDestinoActionPerformed(evt);
-            }
-        });
-
-        lblOrigen2.setText("Latitud Destino");
-
-        lblOrigen3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblOrigen3.setText("Coordenadas de las ubicaciones");
-
-        lblOrigen4.setText("Longitud Origen");
-
-        longitudOrigen.setEditable(false);
-        longitudOrigen.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        longitudOrigen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                longitudOrigenActionPerformed(evt);
-            }
-        });
-
-        lblOrigen5.setText("Longitud Destino");
-
-        longitudDestino.setEditable(false);
-        longitudDestino.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
-        longitudDestino.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                longitudDestinoActionPerformed(evt);
+                lonActionPerformed(evt);
             }
         });
 
@@ -336,103 +276,101 @@ public class VUbicaciones extends javax.swing.JFrame {
                 regresarAdminUbiActionPerformed(evt);
             }
         });
+
+        lblOrigen6.setText("Coordenadas");
+
+        lblOrigen2.setText("Código");
+
+        code.setEditable(false);
+        code.setToolTipText("");
+        code.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codeActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblOrigen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(longitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblOrigen4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(latitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ubiOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(origen, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblOrigen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblOrigen1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(61, 61, 61)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblDestino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(ubiDestino, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblOrigen2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblOrigen5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(destino)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(latitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(longitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(96, 96, 96))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(regresarAdminUbi, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(regresarAdminUbi, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 40, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(name))
+                                .addGap(48, 48, 48))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblOrigen2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)
+                                .addComponent(lblOrigen6, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lon, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lat, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(code)
+                            .addComponent(agregar, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(55, 55, 55)
+                                .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ubicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(127, 127, 127))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(regresarAdminUbi)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblOrigen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDestino)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ubiOrigen)
-                    .addComponent(ubiDestino))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblOrigen3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(lblNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblOrigen1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(latitudOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblOrigen2)
+                        .addComponent(lat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(latitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblOrigen4)
-                    .addComponent(lblOrigen5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(longitudDestino)
-                    .addComponent(longitudOrigen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblOrigen4)
+                            .addComponent(lblOrigen6)
+                            .addComponent(lblOrigen2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ubicacion)
+                            .addComponent(code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(eliminar)
@@ -440,191 +378,199 @@ public class VUbicaciones extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(limpiar)
                         .addComponent(editar)))
-                .addGap(34, 34, 34)
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
-
-        destino.getAccessibleContext().setAccessibleDescription("Ingrese aquí el nombre de la ubicación de destino.");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-   
-        if (tblViajes.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "No ha seleccionado un registro de la tabla", "ERROR AL ELIMINAR REGISTRO", JOptionPane.ERROR_MESSAGE);
-            
-        }else{
-          dtm.removeRow(tblViajes.getSelectedRow());  
-        }
+        codigo=code.getText();
+        eliminarcliente(codigo);
+        refreshTable();
+        LimpiarCampos();
+
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
         LimpiarCampos();
-        inicializarBotones();
     }//GEN-LAST:event_limpiarActionPerformed
 
-    private void origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origenActionPerformed
-         destino.requestFocus();
-    }//GEN-LAST:event_origenActionPerformed
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
 
-    private void destinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destinoActionPerformed
-        
-    }//GEN-LAST:event_destinoActionPerformed
+    }//GEN-LAST:event_nameActionPerformed
 
-    private void ubiOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubiOrigenActionPerformed
+    private void ubicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubicacionActionPerformed
         // TODO add your handling code here:
         MapaSeleccionOrigen mapaSeleccionOrigen = new MapaSeleccionOrigen(VUbicaciones.this);
         mapaSeleccionOrigen.setVisible(true);
-    }//GEN-LAST:event_ubiOrigenActionPerformed
+    }//GEN-LAST:event_ubicacionActionPerformed
 
-    private int id = 1;
+    
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        
-         if (!camposvacios()){      
-             
-        datos [0] = id ++;
-        datos [1] = origen.getText().trim();
-        datos [2] = destino.getText().trim();
-        datos [5] = "Registrado";
-        datos [6] = Double.valueOf(latitudOrigen.getText().trim());
-        datos [7] = Double.valueOf(longitudOrigen.getText().trim());
-        datos [8] = Double.valueOf(latitudDestino.getText().trim());
-        datos [9] = Double.valueOf(longitudDestino.getText().trim());
-        dtm.addRow(datos);
+           
+        txtFields();
+        insertUbicacion(nombre,latitud,longitud);
         LimpiarCampos();
-         }
+        refreshTable();
          
     }//GEN-LAST:event_agregarActionPerformed
     
-private void LimpiarCampos() {
-    origen.setText("");
-    destino.setText("");
-    trsfiltro.setRowFilter(null);
-    origen.requestFocus();
-    latitudOrigen.setText("");
-    longitudOrigen.setText("");
-    latitudDestino.setText("");
-    longitudDestino.setText("");
+public void refreshTable() {
+    String[] columnNames = {"CÓDIGO", "NOMBRE", "LATITUD", "LONGITUD"};
+    DefaultTableModel dtm = new DefaultTableModel(columnNames, 0); // Reiniciar el modelo de la tabla
+    tblUbicaciones.setModel(dtm); // Asignar el modelo a la tabla
+    
+    try (Connection conn = getConnection()) {
+        String query = "SELECT CODIGO_UBICACION, NOMBRE, LATITUD, LONGITUD FROM UBICACIONES";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            // Asegurarse de que no haya valores nulos antes de añadir a la tabla
+            String cod = rs.getString("CODIGO_UBICACION") != null ? rs.getString("CODIGO_UBICACION") : "";
+            String n = rs.getString("NOMBRE") != null ? rs.getString("NOMBRE") : "";
+            String la = rs.getString("LATITUD") != null ? rs.getString("LATITUD") : "";
+            String lo = rs.getString("LONGITUD") != null ? rs.getString("LONGITUD") : "";
+
+            // Agregar la fila al modelo de la tabla
+            dtm.addRow(new Object[]{cod, n, la, lo});
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
+
+    
+    private void insertUbicacion(String nombre, Double latitud, Double longitud){
+        String sql = "INSERT INTO UBICACIONES(NOMBRE,LATITUD,LONGITUD) VALUES(?,?,?)";
+         try (Connection conn =Conexion.getConnection() ;
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+            stmt.setDouble(2, latitud);
+            stmt.setDouble(3, longitud);
+
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Ubicación insertada correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }        
+    }
+    
+    private void actualizarUbicacion(String cod, String nombre, Double lat, Double lon) {
+        String sql = "UPDATE UBICACIONES SET NOMBRE = ?, LATITUD = ?, LONGITUD = ? WHERE CODIGO_UBICACION = ?";
+        try (Connection conn = Conexion.getConnection();
+       
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                   
+                       
+            // Asignar los valores a los parámetros
+            stmt.setString(1, nombre);
+            stmt.setDouble(2, lat);
+            stmt.setDouble(3, lon);
+            stmt.setString(4, cod); // Este es el identificador para saber qué cliente actualizar
+            
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Ubicación actualizada satisfactoriamente!","Ubicación actualizada", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se encontró una ubicación con el CODIGO proporcionado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+       private void eliminarcliente(String cod){
+        int confirmacion = JOptionPane.showConfirmDialog(null, 
+            "¿Está seguro de que desea eliminar este registro?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION);
+        if(confirmacion==JOptionPane.YES_OPTION){
+        String sql = "DELETE FROM UBICACIONES WHERE CODIGO_UBICACION = ?";
+        try (Connection conn = Conexion.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        // Asignar el valor del NIT al parámetro de la consulta
+        stmt.setString(1, cod);
+
+        // Ejecutar la eliminación
+        int filasEliminadas = stmt.executeUpdate();
+
+        if (filasEliminadas > 0) {
+             JOptionPane.showMessageDialog(this, "Ubicación eliminada correctamente.");
+        } else {
+            System.out.println("No se encontró una ubicación con el código proporcionado.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+        }else{
+            JOptionPane.showMessageDialog(this, "Eliminacion cancelada por el usuario");
+        }
+       
+   }
+    
+    private void txtFields(){
+        codigo = code.getText();
+        nombre = name.getText();
+        latitud = Double.valueOf(lat.getText());
+        longitud = Double.valueOf(lat.getText());
+        
+        System.out.println("c "+codigo+" n "+nombre+" la "+latitud+" lo "+longitud);
+    }
+    private void LimpiarCampos() {
+        code.setText("");
+        name.setText("");
+        lat.setText("");
+        lon.setText("");
+    }
 
     
     public void setUbicacion(boolean esOrigen, GeoPosition geoPosition) {
-    if (esOrigen) {
-        latitudOrigen.setText(String.valueOf(geoPosition.getLatitude()));
-        longitudOrigen.setText(String.valueOf(geoPosition.getLongitude()));
-    } else {
-        latitudDestino.setText(String.valueOf(geoPosition.getLatitude()));
-        longitudDestino.setText(String.valueOf(geoPosition.getLongitude()));
-    }
-    }
-    
-private boolean camposvacios() {
-    if (origen.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "El Campo Origen está vacío", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
-        origen.requestFocus();
-        return true;
-    } else if (destino.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "El Campo Destino está vacío", "Verificar Campos", JOptionPane.ERROR_MESSAGE);
-        destino.requestFocus();
-        return true;
-    }
-    return false;
-}
-
-private List<Viaje> getViajesFromTable() {
-    List<Viaje> viajes = new ArrayList<>();
-    DefaultTableModel model = (DefaultTableModel) tblViajes.getModel();
-    
-    for (int i = 0; i < model.getRowCount(); i++) {
-        Viaje viaje = new Viaje();
-        viaje.setIdViaje((Integer) model.getValueAt(i, 0));
-        viaje.setOrigen((String) model.getValueAt(i, 1));
-        viaje.setDestino((String) model.getValueAt(i, 2));
-        viaje.setEstado((String) model.getValueAt(i, 5));
-
-        // Manejar fechas
-        Object fechaSalidaObj = model.getValueAt(i, 3);
-        Object fechaLlegadaObj = model.getValueAt(i, 4);
-        if (fechaSalidaObj instanceof Date) {
-            viaje.setFechaSalida((Date) fechaSalidaObj);
-            System.out.println(viaje.getFechaSalida());
+        if (esOrigen) {
+            lat.setText(String.valueOf(geoPosition.getLatitude()));
+            lon.setText(String.valueOf(geoPosition.getLongitude()));
+        } else {
         }
-        if (fechaLlegadaObj instanceof Date) {
-            viaje.setFechaLlegada((Date) fechaLlegadaObj);
-        }
-
-        
-        viajes.add(viaje);
     }
-    
-    return viajes;
-}
-
-
-        
-    private void ubiDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubiDestinoActionPerformed
+           
+    private void latActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_latActionPerformed
         // TODO add your handling code here:
-        MapaSeleccionDestino mapaSeleccionDestino = new MapaSeleccionDestino(VUbicaciones.this);
-        mapaSeleccionDestino.setVisible(true);
-    }//GEN-LAST:event_ubiDestinoActionPerformed
+    }//GEN-LAST:event_latActionPerformed
 
-    private void latitudOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_latitudOrigenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_latitudOrigenActionPerformed
-
-    private void latitudDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_latitudDestinoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_latitudDestinoActionPerformed
-
-    private void longitudOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longitudOrigenActionPerformed
+    private void lonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lonActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_longitudOrigenActionPerformed
-
-    private void longitudDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longitudDestinoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_longitudDestinoActionPerformed
+    }//GEN-LAST:event_lonActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         
-        if (tblViajes.getSelectedRow() == -1){
+        if (tblUbicaciones.getSelectedRow() == -1){
             JOptionPane.showMessageDialog(null, "No ha seleccionado un registro de la tabla", "ERROR AL MODIFICAR REGISTRO", JOptionPane.WARNING_MESSAGE);
             
         }else{
-         filaSelec = tblViajes.getSelectedRow();
-        
-        origen.setText(tblViajes.getValueAt(filaSelec, 1).toString());
-
-        destino.setText(tblViajes.getValueAt(filaSelec, 2).toString());
-       // jDateChooser1(tblViajes.getValueAt(filaSelec, 3));
-        //fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
-
-        destino.setText(tblViajes.getValueAt(filaSelec, 2).toString()); 
-        //fecIni.setText(tblViajes.getValueAt(filaSelec, 3).toString());
-        //fecFin.setText(tblViajes.getValueAt(filaSelec, 4).toString());
-
-        
-         // Deshabilita los botones Agregar y Eliminar
-        agregar.setEnabled(false);
-        eliminar.setEnabled(false);
-        limpiar.setEnabled(true);
-        
-        System.out.println("Fila: " + filaSelec);  
+            txtFields();
+            actualizarUbicacion(codigo,nombre,latitud,longitud);
+            refreshTable();
+            LimpiarCampos();
         }
          
     }//GEN-LAST:event_editarActionPerformed
 
-    private void origenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_origenKeyTyped
-        trsfiltro = new TableRowSorter(tblViajes.getModel());
-        tblViajes.setRowSorter(trsfiltro);
-    }//GEN-LAST:event_origenKeyTyped
+    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
+
+    }//GEN-LAST:event_nameKeyTyped
 
 
-    private void tblViajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblViajesMouseClicked
+    private void tblUbicacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUbicacionesMouseClicked
 
-    int rowIndex = tblViajes.rowAtPoint(evt.getPoint());
+    int rowIndex = tblUbicaciones.rowAtPoint(evt.getPoint());
 
     // Validar índice de fila
     if (rowIndex < 0) {
@@ -632,39 +578,23 @@ private List<Viaje> getViajesFromTable() {
     }
 
     // Obtener los valores de la fila
-    String origenText = String.valueOf(tblViajes.getValueAt(rowIndex, 1));
-    String destinoText = String.valueOf(tblViajes.getValueAt(rowIndex, 2));
-    String dateString = String.valueOf(tblViajes.getValueAt(rowIndex, 3));
-    String dateString1 = String.valueOf(tblViajes.getValueAt(rowIndex, 4));
-    String estado = String.valueOf(tblViajes.getValueAt(rowIndex, 5));
-    String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 6));
-    String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
-    String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 8));
-    String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
+    String cod = String.valueOf(tblUbicaciones.getValueAt(rowIndex, 0));
+    String nombre = String.valueOf(tblUbicaciones.getValueAt(rowIndex, 1));
+    String latitudO = String.valueOf(tblUbicaciones.getValueAt(rowIndex, 2));
+    String longitudO = String.valueOf(tblUbicaciones.getValueAt(rowIndex, 3));
 
     // Actualizar campos de texto
-    origen.setText(origenText);
-    destino.setText(destinoText);
-    latitudOrigen.setText(latitudO);
-    longitudOrigen.setText(longitudO);
-    latitudDestino.setText(latitudD);
-    longitudDestino.setText(longitudD);
+    code.setText(cod);
+    name.setText(nombre);
+    lat.setText(latitudO);
+    lon.setText(longitudO);
 
-    }//GEN-LAST:event_tblViajesMouseClicked
+    }//GEN-LAST:event_tblUbicacionesMouseClicked
 
     
     
     
     
-    /*public void filtro(){
-        filtro = origen.getText();
-        trsfiltro.setRowFilter(RowFilter.regexFilter(origen.getText(), 1));
-    }*/
-    
-    private void destinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_destinoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_destinoKeyTyped
-
     
     private void agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseClicked
         // TODO add your handling code here:
@@ -681,25 +611,12 @@ private List<Viaje> getViajesFromTable() {
         admin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_regresarAdminUbiActionPerformed
+
+    private void codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codeActionPerformed
   
-    public void filtro() {
-    // Creamos una lista de RowFilters para almacenar todos los filtros
-    List<RowFilter<Object, Object>> filtros = new ArrayList<>();
 
-    if (!origen.getText().trim().isEmpty()) {
-        filtros.add(RowFilter.regexFilter("(?i)" + origen.getText(), 1)); 
-    }
-
-    if (!destino.getText().trim().isEmpty()) {
-        filtros.add(RowFilter.regexFilter("(?i)" + destino.getText(), 2)); 
-
-    }
-    if (filtros.isEmpty()) {
-        trsfiltro.setRowFilter(null); // Si no hay filtros, se muestran todos los registros
-    } else {
-        trsfiltro.setRowFilter(RowFilter.andFilter(filtros)); // Aplica los filtros combinados
-    }
-}
     private void updateMap(GeoPosition origen, GeoPosition destino) {
     // Limpiar y actualizar waypoints
     waypointsOrigen.clear();
@@ -745,9 +662,6 @@ private List<Viaje> getViajesFromTable() {
     int zoom = calcularZoom(latDiff, lonDiff);
     mapViewer.setZoom(zoom);
 
-
-
-    // Asegúrate de repintar el mapa
     mapViewer.repaint();
 }
 
@@ -805,28 +719,23 @@ private List<Viaje> getViajesFromTable() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
-    private javax.swing.JTextField destino;
+    private javax.swing.JTextField code;
     private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField latitudDestino;
-    private javax.swing.JTextField latitudOrigen;
-    private javax.swing.JLabel lblDestino;
-    private javax.swing.JLabel lblOrigen;
+    private javax.swing.JTextField lat;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblOrigen1;
     private javax.swing.JLabel lblOrigen2;
-    private javax.swing.JLabel lblOrigen3;
     private javax.swing.JLabel lblOrigen4;
-    private javax.swing.JLabel lblOrigen5;
+    private javax.swing.JLabel lblOrigen6;
     private javax.swing.JButton limpiar;
-    private javax.swing.JTextField longitudDestino;
-    private javax.swing.JTextField longitudOrigen;
-    private javax.swing.JTextField origen;
+    private javax.swing.JTextField lon;
+    private javax.swing.JTextField name;
     private javax.swing.JButton regresarAdminUbi;
-    private javax.swing.JTable tblViajes;
-    private javax.swing.JButton ubiDestino;
-    private javax.swing.JButton ubiOrigen;
+    private javax.swing.JTable tblUbicaciones;
+    private javax.swing.JButton ubicacion;
     // End of variables declaration//GEN-END:variables
 }
