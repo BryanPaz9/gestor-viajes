@@ -20,8 +20,13 @@ public class Conexion {
     /**
      * BRYAN
      */
-    private static final String us = "system"; // Usuario de Oracle
-    private static final String contra = "system"; // Contraseña de Oracle
+    /*private static final String us = "system"; // Usuario de Oracle
+    private static final String contra = "system"; // Contraseña de Oracle*/
+    /**
+     * SHIRO
+     */
+    private static final String us = "SYSTEM"; // Usuario de Oracle
+    private static final String contra = "goldesun4"; // Contraseña de Oracle
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");

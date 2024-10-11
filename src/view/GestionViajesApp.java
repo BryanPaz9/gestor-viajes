@@ -736,7 +736,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
                     .addComponent(aprobar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
+                .addGap(16, 16, 16))
         );
 
         destino.getAccessibleContext().setAccessibleDescription("Ingrese aquí el nombre de la ubicación de destino.");
@@ -1330,7 +1330,12 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionViajesApp().setVisible(true);
+                 Login princ = new Login();
+                 princ.setVisible(true);
+                 princ.setLocationRelativeTo(null);
+                
+        
+        
             }
         });
     }
