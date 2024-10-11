@@ -534,6 +534,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="origen">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
       <Events>
@@ -548,6 +549,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="destino">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
       </Properties>
       <AccessibilityProperties>
@@ -723,6 +725,9 @@
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser3">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblFecFin1">
       <Properties>

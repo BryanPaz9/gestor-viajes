@@ -93,6 +93,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
         initComponents();
        jComboBox1.setEnabled(false);
        DefaultComboBoxModel<String> estados = new DefaultComboBoxModel<>();
+       estados.addElement("");
+       estados.addElement("Rechazado");
        estados.addElement("Solicitado");
        estados.addElement("Aprobado");
        estados.addElement("En proceso");
@@ -268,6 +270,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de viajes");
 
+        origen.setEditable(false);
         origen.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
         origen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,6 +285,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         lblOrigen.setText("Origen");
 
+        destino.setEditable(false);
         destino.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
         destino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -403,6 +407,8 @@ public class GestionViajesApp extends javax.swing.JFrame {
         });
 
         lblOrigen8.setText("Cliente");
+
+        jDateChooser3.setEnabled(false);
 
         lblFecFin1.setText("Fecha de solicitud");
 
@@ -814,14 +820,22 @@ public class GestionViajesApp extends javax.swing.JFrame {
 private void LimpiarCampos() {
     origen.setText("");
     destino.setText("");
-    trsfiltro.setRowFilter(null);
     origen.requestFocus();
+    destino.requestFocus();
     jDateChooser1.setDate(null);
     jDateChooser2.setDate(null);
+    jDateChooser3.setDate(null);
     latitudOrigen.setText("");
     longitudOrigen.setText("");
     latitudDestino.setText("");
     longitudDestino.setText("");
+    txtSolicitante.setText("");
+    txtCliente.setText("");
+    txtDistancia.setText("");
+    txtCodigoViaje.setText("");
+    jComboBox1.setSelectedIndex(0);
+    
+    
 }
 
     
@@ -881,14 +895,15 @@ private List<Viaje> getViajesFromTable() {
 
 public void refreshTable() {
         // Configuración de las columnas de la tabla
-        String[] columnNames = {"Cod. viaje", "Solicitante","Cliente","Vehiculo","Costo","Origen","Destino","Distancia","Fecha de salida","Fecha de llegada","Fecha de solicitud","Estado"};
+        String[] columnNames = {"Cod. viaje", "Solicitante","Cliente","Vehiculo","Costo","Origen","Destino","Distancia","Fecha de salida","Fecha de llegada","Fecha de solicitud","Estado","Latitud Origen","Longitud Origen","Latidud Destino", "Longitud Destino"};
         dtm = new DefaultTableModel(columnNames, 0); // Se inicializa el modelo de tabla
         tblViajes.setModel(dtm);  // Se asigna el modelo a la tabla
 
         // Consulta a DB
         try (Connection con = getConnection()) {  // getConnection() es tu método que devuelve la conexión a la DB
             String query = "SELECT CODIGO_VIAJE,USU.NOMBRE || ' ' || USU.APELLIDO AS SOLICITANTE, " +
-            "CLI.NOMBRE AS CLIENTE,FK_PLACA,COSTO,ORI.NOMBRE AS ORIGEN,DES.NOMBRE AS DESTINO,DISTANCIA,FECHA_SALIDA,FECHA_LLEGADA,ESTADO,FECHA_REGISTRO " +
+            "CLI.NOMBRE AS CLIENTE,FK_PLACA,COSTO,ORI.NOMBRE AS ORIGEN,DES.NOMBRE AS DESTINO,DISTANCIA,FECHA_SALIDA,FECHA_LLEGADA,ESTADO,FECHA_REGISTRO, "+ 
+            "ORI.LATITUD AS OLAT,ORI.LONGITUD AS OLON,DES.LATITUD AS DLAT,DES.LONGITUD AS DLON " +
             "FROM VIAJES " +
             "JOIN USUARIOS USU ON FK_CODIGO_USUARIO = USU.CODIGO_USUARIO " +
             "JOIN CLIENTES CLI ON FK_NIT = CLI.NIT " +
@@ -910,10 +925,34 @@ public void refreshTable() {
                 String fecha_salida = rs.getString("FECHA_SALIDA");
                 String fecha_llegada = rs.getString("FECHA_LLEGADA");
                 String estado = rs.getString("ESTADO");
+                switch (estado){
+                case "0":
+                    estado = "Rechazado";
+                break;
+                case "1":
+                    estado = "Solicitado";
+                break;
+                case "2":
+                    estado = "Aprobado";
+                break;
+                case "3":
+                    estado = "En proceso";
+                break;
+                case "4":
+                    estado = "Finalizado";
+                break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Estado incorrecto, verificar DB");
+                break;
+                }
                 String fecha_registro = rs.getString("FECHA_REGISTRO");
+                String oLatitud = rs.getString("OLAT");
+                String oLongitud = rs.getString("OLON");
+                String dLatitud = rs.getString("DLAT");
+                String dLongitud = rs.getString("DLON");
                 
                 // Se cargan los datos del objeto a la tabla
-                dtm.addRow(new Object[]{codViaje, solicitante,cliente,vehiculo,costo,origen,destino,distancia,fecha_salida,fecha_llegada,fecha_registro,estado});
+                dtm.addRow(new Object[]{codViaje, solicitante,cliente,vehiculo,costo,origen,destino,distancia,fecha_salida,fecha_llegada,fecha_registro,estado,oLatitud,oLongitud,dLatitud,dLongitud});
             }
 
         } catch (Exception e) {
@@ -969,44 +1008,6 @@ public void refreshTable() {
 
 
     private void tblViajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblViajesMouseClicked
-//        // TODO add your handling code here:
-//int s = tblViajes.rowAtPoint(evt.getPoint());
-//    origen.setText(String.valueOf(tblViajes.getValueAt(s, 1)));
-//    destino.setText(String.valueOf(tblViajes.getValueAt(s, 2)));
-//    String dateString = String.valueOf(tblViajes.getValueAt(s, 3));
-//    String dateString1 = String.valueOf(tblViajes.getValueAt(s, 4));
-//    String estado = String.valueOf(tblViajes.getValueAt(s, 5));
-//    String latitudO = String.valueOf(tblViajes.getValueAt(s, 6));
-//    String longitudO = String.valueOf(tblViajes.getValueAt(s, 7));
-//    String latitudD = String.valueOf(tblViajes.getValueAt(s, 8));
-//    String longitudD = String.valueOf(tblViajes.getValueAt(s, 9));
-//    
-//    ComboBoxModel<String> status = jComboBox1.getModel();
-//    for (int i = 0; i < status.getSize(); i++) {
-//        if (status.getElementAt(i).equals(estado)) {
-//            jComboBox1.setSelectedIndex(i);
-//            break;
-//        }
-//    }
-//    
-//    SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", java.util.Locale.ENGLISH);
-//    try {
-//        Date date = formatter.parse(dateString);
-//        Date date1 = formatter.parse(dateString1);
-//        if(date!= null){
-//            jDateChooser1.setDate(date);
-//        }
-//        if(date1!= null){
-//            jDateChooser2.setDate(date);
-//        }
-//        jDateChooser2.setDate(date1);
-//        latitudOrigen.setText(latitudO);
-//        longitudOrigen.setText(longitudO);
-//        latitudDestino.setText(latitudD);
-//        longitudDestino.setText(longitudD);
-//    } catch (ParseException e) {
-//        System.out.println("Error al analizar la fecha: " + e.getMessage());
-//    }
 
 // Obtener la fila seleccionada
     abrirMapa.setEnabled(true);
@@ -1023,15 +1024,16 @@ public void refreshTable() {
     String dateString = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
     String dateString1 = String.valueOf(tblViajes.getValueAt(rowIndex, 10));
     String estado = String.valueOf(tblViajes.getValueAt(rowIndex, 11));
-    String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 6));
-    String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
-    String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 8));
-    String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
+    String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 12));
+    String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 13));
+    String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 14));
+    String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 15));
     String dist = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
     String vehiculo = String.valueOf(tblViajes.getValueAt(rowIndex,3));
     String cliente = String.valueOf(tblViajes.getValueAt(rowIndex, 2));
     String solicitante = String.valueOf(tblViajes.getValueAt(rowIndex, 1));
     String codigoViaje = String.valueOf(tblViajes.getValueAt(rowIndex,0));
+    String fechaRegistro = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
     
 
     // Actualizar campos de texto
@@ -1047,26 +1049,46 @@ public void refreshTable() {
     txtCodigoViaje.setText(codigoViaje);
 
     // Actualizar JComboBox
-    //updateComboBox(estado);
+    updateComboBox(estado);
 
     // Configurar formato de fecha
-    SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", java.util.Locale.ENGLISH);
+    //SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd", java.util.Locale.ENGLISH);
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ENGLISH);
 
+    
     // Parsear fechas y actualizar JDateChooser
     updateDateChooser(jDateChooser1, dateString, formatter);
     updateDateChooser(jDateChooser2, dateString1, formatter);
+    updateDateChooser(jDateChooser3,fechaRegistro,formatter);
     }//GEN-LAST:event_tblViajesMouseClicked
-  
+
     // Método auxiliar para actualizar el JComboBox
-/*private void updateComboBox(String estado) {
-    ComboBoxModel<String> status = estado.getModel();
-    for (int i = 0; i < status.getSize(); i++) {
-        if (status.getElementAt(i).equals(estado)) {
-            estado.setSelectedIndex(i);
-            break;
+    private void updateComboBox(String estado) {
+        ComboBoxModel<String> status = jComboBox1.getModel();
+        for (int i = 0; i < status.getSize(); i++) {
+            if (status.getElementAt(i).equals(estado)) {
+                jComboBox1.setSelectedIndex(i);
+                break;
+            }
         }
     }
-}*/
+    private void validarSituacion(String estado){
+        switch (estado){
+            case "Rechazado":
+                break;
+            case "Solicitado":
+                break;
+            case "Aprobado":
+                break;
+            case "En proceso":
+                break;
+            case "Finalizado":
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Estado incorrecto, verifique la DB.");
+                break;
+        }
+    }
 
 // Método auxiliar para actualizar el JDateChooser
 private void updateDateChooser(JDateChooser dateChooser, String dateString, SimpleDateFormat formatter) {
