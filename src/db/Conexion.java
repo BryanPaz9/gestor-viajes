@@ -15,13 +15,13 @@ public class Conexion {
     /**
      * RAM
      */
-    private static final String us = "SYSTEM"; // Usuario de Oracle
-    private static final String contra = "Sa1"; // Contraseña de Oracle
+//    private static final String us = "SYSTEM"; // Usuario de Oracle
+//    private static final String contra = "Sa1"; // Contraseña de Oracle
     /**
      * BRYAN
      */
-    /*private static final String us = "system"; // Usuario de Oracle
-    private static final String contra = "system"; // Contraseña de Oracle*/
+    private static final String us = "system"; // Usuario de Oracle
+    private static final String contra = "system"; // Contraseña de Oracle
     /**
      * SHIRO
      */

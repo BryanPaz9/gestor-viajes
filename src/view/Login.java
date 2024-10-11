@@ -194,14 +194,12 @@ public class Login extends javax.swing.JFrame {
         
         String corr = txtEmail.getText();
         char[] pass = txtPassword.getPassword();
-        try{
-            Class.forName("oracle.jdbc.OracleDriver");
-            String URL = "jdbc:oracle:thin:@//localhost:1521/xe";  
-            String USER = "SYSTEM";  
-            String PASSWORD = "Sa1";
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String sqlquery = "SELECT * FROM USUARIOS WHERE  CORREO= ? AND CONTRASENA= ? ";
-            PreparedStatement pst = conn.prepareStatement(sqlquery);
+        String sqlquery = "SELECT * FROM USUARIOS WHERE  CORREO= ? AND CONTRASENA= ? ";
+        try(Connection conn = Conexion.getConnection(); PreparedStatement pst = conn.prepareStatement(sqlquery)){
+//            Class.forName("oracle.jdbc.OracleDriver");
+//            String URL = "jdbc:oracle:thin:@//localhost:1521/xe";  
+//            String USER = "SYSTEM";  
+//            String PASSWORD = "Sa1";
             pst.setString(1, corr);
             pst.setString(2, String.valueOf(pass));
             ResultSet rs = pst.executeQuery();
