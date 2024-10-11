@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 import org.jxmapviewer.viewer.DefaultTileFactory;
-import view.GestionViajesApp;
+import view.VUbicaciones;
 
 
 
@@ -23,13 +23,13 @@ import view.GestionViajesApp;
  */
 public class MapaSeleccionOrigen extends JFrame {
     private JXMapViewer mapViewer;
-    private GestionViajesApp mainApp;
+    private VUbicaciones ubicacionesFrame;
     private GeoPosition geoPositionSeleccionada; // GeoPosition seleccionada
     private Set<Waypoint> waypointsOrigen;
     private WaypointPainter<Waypoint> waypointPainterOrigen;
 
-    public MapaSeleccionOrigen(GestionViajesApp mainApp) {
-        this.mainApp = mainApp;
+    public MapaSeleccionOrigen(VUbicaciones ubicacionesFrame) {
+        this.ubicacionesFrame = ubicacionesFrame;
         setTitle("Seleccionar Ubicación de Origen");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -83,7 +83,7 @@ public class MapaSeleccionOrigen extends JFrame {
         // Acción para el botón "Grabar"
         btnGrabar.addActionListener(e -> {
             if (geoPositionSeleccionada != null) {
-                mainApp.setUbicacion(true, geoPositionSeleccionada);
+                ubicacionesFrame.setUbicacion(true, geoPositionSeleccionada);
             }
             dispose(); // Cierra la ventana después de seleccionar la ubicación
         });

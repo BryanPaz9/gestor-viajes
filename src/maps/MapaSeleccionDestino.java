@@ -24,20 +24,20 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 import org.jxmapviewer.viewer.DefaultTileFactory;
-import view.GestionViajesApp;
+import view.VUbicaciones;
 
 /**
  * Ventana para seleccionar la ubicación de destino en el mapa.
  */
 public class MapaSeleccionDestino extends JFrame {
     private JXMapViewer mapViewer;
-    private GestionViajesApp mainApp;
+    private VUbicaciones ubicacionesFrame;
     private GeoPosition geoPositionSeleccionada; // GeoPosition seleccionada
     private Set<Waypoint> waypointsDestino;
     private WaypointPainter<Waypoint> waypointPainterDestino;
 
-    public MapaSeleccionDestino(GestionViajesApp mainApp) {
-        this.mainApp = mainApp;
+    public MapaSeleccionDestino(VUbicaciones ubicacionesFrame) {
+        this.ubicacionesFrame = ubicacionesFrame;
         setTitle("Seleccionar Ubicación de Destino");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -91,7 +91,7 @@ public class MapaSeleccionDestino extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (geoPositionSeleccionada != null) {
-                    mainApp.setUbicacion(false, geoPositionSeleccionada);
+                    ubicacionesFrame.setUbicacion(false, geoPositionSeleccionada);
                 }
                 dispose(); // Cierra la ventana después de seleccionar la ubicación
             }
