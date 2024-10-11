@@ -193,6 +193,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
         crud_clientes = new javax.swing.JMenuItem();
         crud_vehiculos = new javax.swing.JMenuItem();
         crud_usuarios = new javax.swing.JMenuItem();
+        ubicaciones = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -527,6 +528,14 @@ public class GestionViajesApp extends javax.swing.JFrame {
 
         crud_usuarios.setText("Usuarios");
         jMenu3.add(crud_usuarios);
+
+        ubicaciones.setText("Ubicaciones");
+        ubicaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ubicacionesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(ubicaciones);
 
         jMenu2.add(jMenu3);
 
@@ -1347,6 +1356,14 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
         vc.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_crud_clientesActionPerformed
+
+    private void ubicacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubicacionesActionPerformed
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+        VUbicaciones vu = new VUbicaciones();
+        vu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_ubicacionesActionPerformed
   
     public void filtro() {
     // Creamos una lista de RowFilters para almacenar todos los filtros
@@ -1552,6 +1569,7 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     private javax.swing.JTextField txtCodigoViaje;
     private javax.swing.JTextField txtDistancia;
     private javax.swing.JTextField txtSolicitante;
+    private javax.swing.JMenuItem ubicaciones;
     private javax.swing.JComboBox vehiculo;
     private javax.swing.JMenuItem vehiculo_recorrido;
     private javax.swing.JMenuItem vehiculo_viajes;
