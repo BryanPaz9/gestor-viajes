@@ -15,8 +15,8 @@ public class Conexion {
     /**
      * RAM
      */
-    /*private static final String us = "SYSTEM"; // Usuario de Oracle
-    private static final String contra = "Sa1"; // Contraseña de Oracle*/
+    private static final String us = "SYSTEM"; // Usuario de Oracle
+    private static final String contra = "Sa1"; // Contraseña de Oracle
     /**
      * BRYAN
      */
@@ -25,8 +25,8 @@ public class Conexion {
     /**
      * SHIRO
      */
-    private static final String us = "SYSTEM"; // Usuario de Oracle
-    private static final String contra = "goldesun4"; // Contraseña de Oracle
+    /*private static final String us = "SYSTEM"; // Usuario de Oracle
+    private static final String contra = "goldesun4"; // Contraseña de Oracle*/
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");

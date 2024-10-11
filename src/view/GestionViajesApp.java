@@ -512,6 +512,11 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jMenu3.setText("Mantenimientos");
 
         crud_clientes.setText("Clientes");
+        crud_clientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crud_clientesActionPerformed(evt);
+            }
+        });
         jMenu3.add(crud_clientes);
 
         crud_vehiculos.setText("Vehiculos");
@@ -1190,6 +1195,13 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     private void txtDistanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDistanciaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDistanciaActionPerformed
+
+    private void crud_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crud_clientesActionPerformed
+        // TODO add your handling code here:
+        VClientes vc = new VClientes();
+        vc.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_crud_clientesActionPerformed
   
     public void filtro() {
     // Creamos una lista de RowFilters para almacenar todos los filtros

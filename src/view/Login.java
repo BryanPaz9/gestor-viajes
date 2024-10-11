@@ -198,7 +198,7 @@ public class Login extends javax.swing.JFrame {
             Class.forName("oracle.jdbc.OracleDriver");
             String URL = "jdbc:oracle:thin:@//localhost:1521/xe";  
             String USER = "SYSTEM";  
-            String PASSWORD = "goldesun4";
+            String PASSWORD = "Sa1";
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
             String sqlquery = "SELECT * FROM USUARIOS WHERE  CORREO= ? AND CONTRASENA= ? ";
             PreparedStatement pst = conn.prepareStatement(sqlquery);
