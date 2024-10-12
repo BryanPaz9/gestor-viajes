@@ -30,131 +30,159 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSeparator2" alignment="1" min="-2" pref="1018" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="924" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtSolicitante" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                          <Component id="lblOrigen7" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblOrigen8" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="txtCliente" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblOrigen6" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="txtCodigoViaje" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jComboBox1" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" pref="82" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="codorigen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen3" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblOrigen" pref="220" max="32767" attributes="0"/>
+                          <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen4" alignment="0" pref="220" max="32767" attributes="0"/>
+                          <Component id="origen" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace pref="110" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="287" max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" pref="675" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtSolicitante" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
-                                          <Component id="lblOrigen7" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblOrigen8" min="-2" pref="111" max="-2" attributes="0"/>
-                                          <Component id="txtCliente" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblOrigen6" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                                          <Component id="txtCodigoViaje" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jComboBox1" min="-2" pref="220" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" min="-2" pref="82" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="latitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lblOrigen1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lblOrigen" pref="220" max="32767" attributes="0"/>
-                                          <Component id="longitudOrigen" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lblOrigen4" alignment="0" pref="220" max="32767" attributes="0"/>
-                                          <Component id="origen" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <EmptySpace pref="110" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="latitudDestino" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="lblOrigen2" min="-2" pref="189" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="longitudDestino" min="-2" pref="220" max="-2" attributes="0"/>
-                                          <Component id="lblOrigen5" min="-2" pref="189" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblFecFin1" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
-                                          <Component id="jDateChooser3" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblFecIni" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                                          <Component id="jDateChooser1" min="-2" pref="219" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblOrigen10" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                                          <Component id="txtDistancia" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblOrigen9" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                                          <Component id="precio" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="lblDestino" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
-                                  <Component id="destino" min="-2" pref="218" max="-2" attributes="0"/>
+                                  <Component id="lblFecFin1" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
+                                  <Component id="jDateChooser3" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblFecIni" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                  <Component id="jDateChooser1" min="-2" pref="219" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblOrigen10" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="txtDistancia" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblOrigen9" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="precio" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="latitudDestino" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblOrigen2" min="-2" pref="189" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="longitudDestino" min="-2" pref="220" max="-2" attributes="0"/>
+                              <Component id="lblOrigen5" min="-2" pref="189" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblDestino" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
+                          <Component id="destino" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="coddestino" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblOrigen11" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jSeparator2" min="-2" pref="1018" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel4" min="-2" pref="104" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="nameusuario" min="-2" pref="161" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="soliViaje" min="-2" max="-2" attributes="0"/>
+                      <Component id="soliViaje" min="-2" pref="112" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCancelarViaje" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="limpiar" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="526" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="415" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel1" min="-2" pref="675" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="1080" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel4" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="nameusuario" alignment="0" min="-2" pref="33" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="33" max="-2" attributes="0"/>
-              <EmptySpace pref="11" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" pref="20" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="destino" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="destino" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="lblOrigen11" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="coddestino" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblOrigen2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -167,12 +195,21 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDestino" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDestino" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="origen" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lblOrigen3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="codorigen" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="11" max="32767" attributes="0"/>
-                      <Component id="origen" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
@@ -188,9 +225,9 @@
                       </Group>
                   </Group>
               </Group>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace pref="11" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lblOrigen7" min="-2" pref="14" max="-2" attributes="0"/>
@@ -216,12 +253,19 @@
                               <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="limpiar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCancelarViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="soliViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lblFecFin1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblFecIni" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -244,19 +288,11 @@
                               <Component id="precio" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
-              <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="256" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="limpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCancelarViaje" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="soliViaje" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="239" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -272,18 +308,9 @@
         <Component class="javax.swing.JTable" name="tblViajes">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="11" rowCount="1">
+              <Table columnCount="2" rowCount="1">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
                 <Column editable="true" title="Origen" type="java.lang.String"/>
-                <Column editable="true" title="Destino" type="java.lang.String"/>
-                <Column editable="true" title="Fecha de Inicio" type="java.lang.String"/>
-                <Column editable="true" title="Fecha de Fin" type="java.lang.String"/>
-                <Column editable="true" title="Estado" type="java.lang.Object"/>
-                <Column editable="false" title="Lat. Or." type="java.lang.Double"/>
-                <Column editable="false" title="Lon. Or" type="java.lang.Double"/>
-                <Column editable="false" title="Lat. Des." type="java.lang.Double"/>
-                <Column editable="false" title="Long. Des" type="java.lang.Double"/>
-                <Column editable="true" title="null" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -294,51 +321,6 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="35" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -490,7 +472,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblOrigen7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Solicitante"/>
+        <Property name="text" type="java.lang.String" value="C&#xf3;digo de solicitante"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCliente">
@@ -504,7 +486,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblOrigen8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cliente"/>
+        <Property name="text" type="java.lang.String" value="Nit de cliente"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser3">
@@ -584,6 +566,55 @@
     <Component class="javax.swing.JButton" name="soliViaje">
       <Properties>
         <Property name="text" type="java.lang.String" value="Solicitar Viaje"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="soliViajeActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nameusuario">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="24" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="24" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Usuario: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="codorigen">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="codorigenActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblOrigen3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Codigo Origen"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="coddestino">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese aqu&#xed; el nombre de la ubicaci&#xf3;n de origen."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="coddestinoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblOrigen11">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Codigo Destino"/>
       </Properties>
     </Component>
   </SubComponents>

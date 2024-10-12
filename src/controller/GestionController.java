@@ -283,7 +283,7 @@ public class GestionController {
     
     public String vehiculo_recorrido(){
         String sql="SELECT FK_PLACA,COUNT(*) AS Viajes_realizados,SUM(DISTANCIA) AS DISTANCIA_TOTAL_RECORRIDA " +
-        "FROM VIAJES GROUP BY FK_PLACA ORDER BY DISTANCIA_TOTAL_RECORRIDA Desc FETCH FIRST 1 ROWS ONLY";
+        "FROM VIAJES WHERE ESTADO = 4 GROUP BY FK_PLACA ORDER BY DISTANCIA_TOTAL_RECORRIDA Desc FETCH FIRST 1 ROWS ONLY";
         try(Connection conn = Conexion.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
             ResultSet res = stmt.executeQuery();
             String response ="";
@@ -308,14 +308,19 @@ public class GestionController {
         return null;
     }
     
-    public void aprobar(Integer codigoViaje){
-        String sql = "UPDATE VIAJES SET ESTADO = ? WHERE CODIGO_VIAJE = ?";
+    public void aprobar(String placa, Double precio,Integer codigoViaje){
+        String sql = "UPDATE VIAJES SET FK_PLACA = ?, COSTO = ?, ESTADO = ? WHERE CODIGO_VIAJE = ?";
         try (Connection conn = Conexion.getConnection();
        
             PreparedStatement stmt = conn.prepareStatement(sql)) {          
             // Asignar los valores a los parámetros
-            stmt.setInt(1, 2);
-            stmt.setInt(2, codigoViaje); // Este es el identificador para saber qué cliente actualizar
+            stmt.setString(1, placa);
+            stmt.setDouble(2, precio);
+            stmt.setInt(3, 2);  
+            stmt.setInt(4, codigoViaje); // Este es el identificador para   saber qué cliente actualizar
+            System.out.println(placa);
+            System.out.println(precio);
+            System.out.println(codigoViaje);
             // Ejecutar la actualización
             int filasActualizadas = stmt.executeUpdate();
 
@@ -326,6 +331,7 @@ public class GestionController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(sql);
         }
         
     
@@ -407,5 +413,57 @@ public class GestionController {
             e.printStackTrace();
         }
     }
+    
+    public void solicitarViaje(String solicitante,String origen, String destino) {
+        // Consulta SQL parametrizada
+        String sql = "INSERT INTO VIAJES (FK_CODIGO_USUARIO, ORIGEN, DESTINO, ESTADO, COSTO,DISTANCIA) VALUES (?, ?, ?, 1,0,0)";
+
+        // Variables para almacenar los valores dinámicos
+        int usuarioId = Integer.parseInt(solicitante);
+        int origenId = Integer.parseInt(origen);
+        int destinoId = Integer.parseInt(destino);
+
+        // Construcción de la consulta con los valores para depuración
+        String consultaCompleta = String.format(
+            "INSERT INTO VIAJES (FK_CODIGO_USUARIO, ORIGEN, DESTINO, ESTADO) VALUES (%d, %d, %d, 1)",
+            usuarioId, origenId, destinoId
+        );
+
+        System.out.println("Ejecutando: " + consultaCompleta);  // Imprimir la consulta para depuración
+
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Asignar los valores a los parámetros del PreparedStatement
+            stmt.setInt(1, usuarioId); // FK_CODIGO_USUARIO
+            stmt.setInt(2, origenId);  // ORIGEN
+            stmt.setInt(3, destinoId); // DESTINO
+
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Viaje solicitado satisfactoriamente!", 
+                                              "Viaje", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se pudo insertar el viaje.");
+            }
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // Mostrar la consulta que causó el error junto con el mensaje de excepción
+            JOptionPane.showMessageDialog(null, "Error de integridad: " + e.getMessage() + 
+                                          "\nConsulta: " + consultaCompleta,
+                                          "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // Mostrar cualquier otro error SQL junto con la consulta
+            System.out.println("Error al ejecutar: " + consultaCompleta);
+            e.printStackTrace();
+        }
+
+    }
+
+
+
     
 }

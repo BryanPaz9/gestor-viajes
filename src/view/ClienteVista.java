@@ -94,7 +94,7 @@ public class ClienteVista extends javax.swing.JFrame {
     /**
      * Creates new form GestionViajesApp
      */
-    public ClienteVista() {
+    public ClienteVista(String usuario,String nombre ,String cliente) {
         initComponents();
        jComboBox1.setEnabled(false);
        DefaultComboBoxModel<String> estados = new DefaultComboBoxModel<>();
@@ -105,7 +105,10 @@ public class ClienteVista extends javax.swing.JFrame {
        estados.addElement("En proceso");
        estados.addElement("Finalizado");
        jComboBox1.setModel(estados);
-       refreshTable();
+       txtSolicitante.setText(usuario);
+       txtCliente.setText(cliente);
+       nameusuario.setText(nombre);
+       refreshTable(usuario);
        cargarUbicaciones();
        agregarListeners();
        
@@ -146,7 +149,8 @@ public class ClienteVista extends javax.swing.JFrame {
 
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
-        
+        origen.addItem("Seleccione");
+        destino.addItem("Seleccione");
         while (rs.next()) {
             String nombre = rs.getString("NOMBRE");
             origen.addItem(nombre);
@@ -177,10 +181,10 @@ public class ClienteVista extends javax.swing.JFrame {
    private void cargarLatLong(String tipo) {
     JComboBox<String> comboBox = tipo.equals("origen") ? origen : destino;
     String seleccion = (String) comboBox.getSelectedItem();
-
-    if (seleccion != null) {
+    int index = comboBox.getSelectedIndex();
+    if (seleccion != null || index != 0) {
         try (Connection con = Conexion.getConnection()) {
-            String query = "SELECT LATITUD, LONGITUD FROM UBICACIONES WHERE NOMBRE = ?";
+            String query = "SELECT CODIGO_UBICACION,LATITUD, LONGITUD FROM UBICACIONES WHERE NOMBRE = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, seleccion);
             ResultSet rs = ps.executeQuery();
@@ -188,17 +192,30 @@ public class ClienteVista extends javax.swing.JFrame {
             if (rs.next()) {
                 String latitud = rs.getString("LATITUD");
                 String longitud = rs.getString("LONGITUD");
+                String cod_ubi = rs.getString("CODIGO_UBICACION");
 
                 if (tipo.equals("origen")) {
+                    codorigen.setText(cod_ubi);
                     latitudOrigen.setText(latitud);
                     longitudOrigen.setText(longitud);
                 } else {
+                    coddestino.setText(cod_ubi);                    
                     latitudDestino.setText(latitud);
                     longitudDestino.setText(longitud);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    } else{
+        if (tipo.equals("origen")) {
+            codorigen.setText("");
+            latitudOrigen.setText("");
+            longitudOrigen.setText("");
+        } else {
+            coddestino.setText("");                    
+            latitudDestino.setText("");
+            longitudDestino.setText("");
         }
     }
 }
@@ -244,6 +261,12 @@ public class ClienteVista extends javax.swing.JFrame {
         destino = new javax.swing.JComboBox<>();
         btnCancelarViaje = new javax.swing.JButton();
         soliViaje = new javax.swing.JButton();
+        nameusuario = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        codorigen = new javax.swing.JTextField();
+        lblOrigen3 = new javax.swing.JLabel();
+        coddestino = new javax.swing.JTextField();
+        lblOrigen11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -251,17 +274,17 @@ public class ClienteVista extends javax.swing.JFrame {
 
         tblViajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null}
             },
             new String [] {
-                "ID", "Origen", "Destino", "Fecha de Inicio", "Fecha de Fin", "Estado", "Lat. Or.", "Lon. Or", "Lat. Des.", "Long. Des", "null"
+                "ID", "Origen"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, false, false, false, false, true
+                false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -282,19 +305,6 @@ public class ClienteVista extends javax.swing.JFrame {
             tblViajes.getColumnModel().getColumn(0).setResizable(false);
             tblViajes.getColumnModel().getColumn(0).setPreferredWidth(5);
             tblViajes.getColumnModel().getColumn(1).setResizable(false);
-            tblViajes.getColumnModel().getColumn(3).setPreferredWidth(15);
-            tblViajes.getColumnModel().getColumn(4).setResizable(false);
-            tblViajes.getColumnModel().getColumn(4).setPreferredWidth(15);
-            tblViajes.getColumnModel().getColumn(5).setResizable(false);
-            tblViajes.getColumnModel().getColumn(5).setPreferredWidth(35);
-            tblViajes.getColumnModel().getColumn(6).setResizable(false);
-            tblViajes.getColumnModel().getColumn(6).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(7).setResizable(false);
-            tblViajes.getColumnModel().getColumn(7).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(8).setResizable(false);
-            tblViajes.getColumnModel().getColumn(8).setPreferredWidth(1);
-            tblViajes.getColumnModel().getColumn(9).setResizable(false);
-            tblViajes.getColumnModel().getColumn(9).setPreferredWidth(1);
         }
 
         limpiar.setText("Limpiar");
@@ -382,7 +392,7 @@ public class ClienteVista extends javax.swing.JFrame {
             }
         });
 
-        lblOrigen7.setText("Solicitante");
+        lblOrigen7.setText("Código de solicitante");
 
         txtCliente.setEditable(false);
         txtCliente.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
@@ -392,7 +402,7 @@ public class ClienteVista extends javax.swing.JFrame {
             }
         });
 
-        lblOrigen8.setText("Cliente");
+        lblOrigen8.setText("Nit de cliente");
 
         jDateChooser3.setEnabled(false);
 
@@ -440,6 +450,39 @@ public class ClienteVista extends javax.swing.JFrame {
         });
 
         soliViaje.setText("Solicitar Viaje");
+        soliViaje.setEnabled(false);
+        soliViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                soliViajeActionPerformed(evt);
+            }
+        });
+
+        nameusuario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nameusuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Usuario: ");
+
+        codorigen.setEditable(false);
+        codorigen.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
+        codorigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codorigenActionPerformed(evt);
+            }
+        });
+
+        lblOrigen3.setText("Codigo Origen");
+
+        coddestino.setEditable(false);
+        coddestino.setToolTipText("Ingrese aquí el nombre de la ubicación de origen.");
+        coddestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coddestinoActionPerformed(evt);
+            }
+        });
+
+        lblOrigen11.setText("Codigo Destino");
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -447,99 +490,120 @@ public class ClienteVista extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblOrigen7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCliente)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(latitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(codorigen, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(longitudOrigen)
+                            .addComponent(lblOrigen4, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(origen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1018, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 924, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(287, 287, 287)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblOrigen7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblOrigen8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCliente)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblOrigen6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCodigoViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(latitudOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblOrigen1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                            .addComponent(longitudOrigen)
-                                            .addComponent(lblOrigen4, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                            .addComponent(origen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(latitudDestino)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lblOrigen2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 31, Short.MAX_VALUE)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(longitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblOrigen5, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblFecFin1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblFecIni, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblOrigen10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblOrigen9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(lblDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(70, 70, 70))
+                                    .addComponent(lblFecFin1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFecIni, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrigen10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrigen9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(latitudDestino)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblOrigen2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 31, Short.MAX_VALUE)))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(longitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblOrigen5, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(coddestino, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrigen11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(70, 70, 70))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1018, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(soliViaje)
+                        .addComponent(soliViaje, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelarViaje)
                         .addGap(18, 18, 18)
                         .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(526, 526, 526)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(415, 415, 415))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(226, 226, 226))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblOrigen11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(coddestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblOrigen2)
@@ -549,11 +613,17 @@ public class ClienteVista extends javax.swing.JFrame {
                             .addComponent(latitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(longitudDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblOrigen)
-                            .addComponent(lblDestino))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                        .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblOrigen)
+                                    .addComponent(lblDestino))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblOrigen3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(codorigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -564,9 +634,9 @@ public class ClienteVista extends javax.swing.JFrame {
                                 .addComponent(lblOrigen1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(latitudOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblOrigen7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -586,9 +656,15 @@ public class ClienteVista extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(37, 37, 37))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(limpiar)
+                            .addComponent(btnCancelarViaje)
+                            .addComponent(soliViaje))
+                        .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -606,17 +682,10 @@ public class ClienteVista extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblOrigen9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(limpiar)
-                    .addComponent(btnCancelarViaje)
-                    .addComponent(soliViaje))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+                                .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -634,17 +703,19 @@ private void LimpiarCampos() {
     origen.requestFocus();
     destino.requestFocus();
     jDateChooser1.setDate(null);
-    
+    codorigen.setText("");
+    coddestino.setText("");
     jDateChooser3.setDate(null);
     latitudOrigen.setText("");
     longitudOrigen.setText("");
     latitudDestino.setText("");
     longitudDestino.setText("");
-    txtSolicitante.setText("");
-    txtCliente.setText("");
     txtDistancia.setText("");
     txtCodigoViaje.setText("");
     jComboBox1.setSelectedIndex(0);
+    precio.setText("");
+    soliViaje.setEnabled(true);
+    btnCancelarViaje.setEnabled(false);
     
     
 }
@@ -708,9 +779,9 @@ private List<Viaje> getViajesFromTable() {
 
 
 
-        public void refreshTable() {
+        public void refreshTable(String usuario) {
         // Configuración de las columnas de la tabla
-        String[] columnNames = {"Cod. viaje", "Solicitante","Cliente","Fecha de solicitud","Fecha de salida","Distancia","Costo","Estado"};
+        String[] columnNames = {"Cod. viaje", "Solicitante","Cliente","Vehiculo","Costo","Origen","Destino","Lat. Origen","Lon. Origen","Lat. Destino","Lon. Destino","Fecha de solicitud","Fecha de salida","Fecha de llegada","Distancia","Estado"};
         dtm = new DefaultTableModel(columnNames, 0); // Se inicializa el modelo de tabla
         tblViajes.setModel(dtm);  // Se asigna el modelo a la tabla
 
@@ -723,9 +794,11 @@ private List<Viaje> getViajesFromTable() {
             "JOIN USUARIOS USU ON FK_CODIGO_USUARIO = USU.CODIGO_USUARIO " +
             "JOIN CLIENTES CLI ON FK_NIT = CLI.NIT " +
             "JOIN UBICACIONES ORI ON ORIGEN = ORI.CODIGO_UBICACION " +
-            "JOIN UBICACIONES DES ON DESTINO = DES.CODIGO_UBICACION";
+            "JOIN UBICACIONES DES ON DESTINO = DES.CODIGO_UBICACION "
+             + "WHERE FK_CODIGO_USUARIO = ?";
             
             PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, Integer.valueOf(usuario));
             ResultSet rs = ps.executeQuery();
 
             // Se recorre con un while el result del query
@@ -733,41 +806,41 @@ private List<Viaje> getViajesFromTable() {
                 String codViaje = rs.getString("CODIGO_VIAJE");
                 String solicitante = rs.getString("SOLICITANTE");
                 String cliente = rs.getString("CLIENTE");
-                
+                String vehiculo = rs.getString("FK_PLACA");
                 String costo = rs.getString("COSTO");
-                String origen = rs.getString("ORIGEN");
-                String destino = rs.getString("DESTINO");
-                String distancia = rs.getString("DISTANCIA");
-                String fecha_salida = rs.getString("FECHA_SALIDA");
-                String estado = rs.getString("ESTADO");
-                switch (estado){
+                String ori = rs.getString("ORIGEN");
+                String des = rs.getString("DESTINO");
+                String latO = rs.getString("OLAT");
+                String lonO = rs.getString("OLON");
+                String latD = rs.getString("DLAT");
+                String lonD = rs.getString("DLON");
+                String fsol = rs.getString("FECHA_REGISTRO");
+                String fsalida = rs.getString("FECHA_SALIDA");
+                String fllegada = rs.getString("FECHA_LLEGADA");                
+                String dist = rs.getString("DISTANCIA");
+                String est = rs.getString("ESTADO");
+                switch (est){
                 case "0":
-                    estado = "Rechazado";
+                    est = "Rechazado";
                 break;
                 case "1":
-                    estado = "Solicitado";
+                    est = "Solicitado";
                 break;
                 case "2":
-                    estado = "Aprobado";
+                    est = "Aprobado";
                 break;
                 case "3":
-                    estado = "En proceso";
+                    est = "En proceso";
                 break;
                 case "4":
-                    estado = "Finalizado";
-                break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Estado incorrecto, verificar DB");
+                    est = "Finalizado";
                 break;
                 }
-                String fecha_registro = rs.getString("FECHA_REGISTRO");
-                String oLatitud = rs.getString("OLAT");
-                String oLongitud = rs.getString("OLON");
-                String dLatitud = rs.getString("DLAT");
-                String dLongitud = rs.getString("DLON");
+                soliViaje.setEnabled(true);
+                btnCancelarViaje.setEnabled(false);
                 
                 // Se cargan los datos del objeto a la tabla
-                dtm.addRow(new Object[]{codViaje, solicitante,cliente,fecha_registro,fecha_salida,distancia,costo,estado});
+                dtm.addRow(new Object[]{codViaje, solicitante,cliente,vehiculo,costo,ori,des,latO,lonO,latD,lonD,fsol,fsalida,fllegada,dist,est});
             }
 
         } catch (Exception e) {
@@ -800,10 +873,6 @@ private List<Viaje> getViajesFromTable() {
 
     private void tblViajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblViajesMouseClicked
 
-        
-
-    
-        
     // Obtener la fila seleccionada
     int rowIndex = tblViajes.rowAtPoint(evt.getPoint());
     // Validar índice de fila
@@ -813,19 +882,20 @@ private List<Viaje> getViajesFromTable() {
     // Obtener los valores de la fila
     String origenText = String.valueOf(tblViajes.getValueAt(rowIndex, 5));
     String destinoText = String.valueOf(tblViajes.getValueAt(rowIndex, 6));
-    String dateString = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
-    String dateString1 = String.valueOf(tblViajes.getValueAt(rowIndex, 10));
-    String estado = String.valueOf(tblViajes.getValueAt(rowIndex, 11));
-    String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 12));
-    String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 13));
-    String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 14));
-    String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 15));
-    String dist = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
+    String estado = String.valueOf(tblViajes.getValueAt(rowIndex, 15));
+    validarSituacion(estado);
+    String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
+    String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 8));
+    String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
+    String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 10));
+    String dist = String.valueOf(tblViajes.getValueAt(rowIndex, 14));
+    String prec = String.valueOf(tblViajes.getValueAt(rowIndex, 4));
     String vehiculo = String.valueOf(tblViajes.getValueAt(rowIndex, 3));
-    String cliente = String.valueOf(tblViajes.getValueAt(rowIndex, 2));
-    String solicitante = String.valueOf(tblViajes.getValueAt(rowIndex, 1));
+    //String cliente = String.valueOf(tblViajes.getValueAt(rowIndex, 2));
+    //String solicitante = String.valueOf(tblViajes.getValueAt(rowIndex, 1));
     String codigoViaje = String.valueOf(tblViajes.getValueAt(rowIndex, 0));
-    String fechaRegistro = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
+    String fechaRegistro = String.valueOf(tblViajes.getValueAt(rowIndex, 11));
+    String fechaLlegada = String.valueOf(tblViajes.getValueAt(rowIndex, 12));
 
     // Actualizar los JComboBox
     origen.setSelectedItem(origenText);
@@ -836,9 +906,11 @@ private List<Viaje> getViajesFromTable() {
     longitudOrigen.setText(longitudO);
     latitudDestino.setText(latitudD);
     longitudDestino.setText(longitudD);
+//    txtDistancia.setText(dist);
+//    txtCliente.setText(cliente);
+//    txtSolicitante.setText(solicitante)
     txtDistancia.setText(dist);
-    txtCliente.setText(cliente);
-    txtSolicitante.setText(solicitante);
+    precio.setText(prec);
     txtCodigoViaje.setText(codigoViaje);
 
     // Actualizar JComboBox estado
@@ -848,11 +920,20 @@ private List<Viaje> getViajesFromTable() {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ENGLISH);
 
     // Parsear fechas y actualizar JDateChooser
-    
+    updateDateChooser(jDateChooser3, fechaRegistro, formatter);
+    updateDateChooser(jDateChooser1, fechaLlegada, formatter);    
         
         
     }//GEN-LAST:event_tblViajesMouseClicked
 
+    private void updateDateChooser(JDateChooser dateChooser, String dateString, SimpleDateFormat formatter) {
+    try {
+        Date date = formatter.parse(dateString);
+        dateChooser.setDate(date);
+    } catch (ParseException e) {
+        System.out.println("Error al analizar la fecha: " + e.getMessage());
+    }
+}
     // Método auxiliar para actualizar el JComboBox
     private void updateComboBox(String estado) {
     ComboBoxModel<String> status = jComboBox1.getModel();
@@ -867,14 +948,24 @@ private List<Viaje> getViajesFromTable() {
     private void validarSituacion(String estado){
         switch (estado){
             case "Rechazado":
+                btnCancelarViaje.setEnabled(false);
+                soliViaje.setEnabled(false);
                 break;
             case "Solicitado":
+                btnCancelarViaje.setEnabled(true);
+                soliViaje.setEnabled(false);
                 break;
             case "Aprobado":
+                btnCancelarViaje.setEnabled(false);
+                soliViaje.setEnabled(false);
                 break;
             case "En proceso":
+                btnCancelarViaje.setEnabled(false);
+                soliViaje.setEnabled(false);
                 break;
             case "Finalizado":
+                btnCancelarViaje.setEnabled(false);
+                soliViaje.setEnabled(false);
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Estado incorrecto, verifique la DB.");
@@ -905,7 +996,7 @@ private void cancelarViaje() {
 
         if (rowsAffected > 0) {
             JOptionPane.showMessageDialog(null, "El viaje ha sido cancelado.");
-            refreshTable(); // Actualiza la tabla para reflejar el cambio
+            //refreshTable(); // Actualiza la tabla para reflejar el cambio
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cancelar el viaje.");
         }
@@ -952,7 +1043,7 @@ private void cancelarViaje() {
     }//GEN-LAST:event_origenActionPerformed
 
     private void btnCancelarViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarViajeActionPerformed
-        
+        /*
     btnCancelarViaje = new JButton("Cancelar Viaje");
     btnCancelarViaje.setEnabled(false); 
     btnCancelarViaje.addActionListener(new ActionListener() {
@@ -966,11 +1057,31 @@ private void cancelarViaje() {
     });
 
     // Añadir el botón a tu layout
-    add(btnCancelarViaje, BorderLayout.SOUTH);
+    add(btnCancelarViaje, BorderLayout.SOUTH);*/
 
         
-        
+        opciones.denegar(Integer.valueOf(txtCodigoViaje.getText()));
+        refreshTable(txtSolicitante.getText());
+        LimpiarCampos();
     }//GEN-LAST:event_btnCancelarViajeActionPerformed
+
+    private void soliViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soliViajeActionPerformed
+        // TODO add your handling code here:
+        String soli = txtSolicitante.getText();
+        String ori = codorigen.getText();
+        String dest = coddestino.getText();
+        opciones.solicitarViaje(soli, ori, dest);
+        refreshTable(soli);
+        LimpiarCampos();
+    }//GEN-LAST:event_soliViajeActionPerformed
+
+    private void codorigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codorigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codorigenActionPerformed
+
+    private void coddestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coddestinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_coddestinoActionPerformed
         
 
     
@@ -1084,12 +1195,15 @@ private void cancelarViaje() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarViaje;
+    private javax.swing.JTextField coddestino;
+    private javax.swing.JTextField codorigen;
     private javax.swing.JComboBox<String> destino;
     private javax.swing.JComboBox jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
@@ -1101,7 +1215,9 @@ private void cancelarViaje() {
     private javax.swing.JLabel lblOrigen;
     private javax.swing.JLabel lblOrigen1;
     private javax.swing.JLabel lblOrigen10;
+    private javax.swing.JLabel lblOrigen11;
     private javax.swing.JLabel lblOrigen2;
+    private javax.swing.JLabel lblOrigen3;
     private javax.swing.JLabel lblOrigen4;
     private javax.swing.JLabel lblOrigen5;
     private javax.swing.JLabel lblOrigen6;
@@ -1111,6 +1227,7 @@ private void cancelarViaje() {
     private javax.swing.JButton limpiar;
     private javax.swing.JTextField longitudDestino;
     private javax.swing.JTextField longitudOrigen;
+    private javax.swing.JLabel nameusuario;
     private javax.swing.JComboBox<String> origen;
     private javax.swing.JTextField precio;
     private javax.swing.JButton soliViaje;

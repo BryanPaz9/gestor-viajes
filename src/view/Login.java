@@ -210,7 +210,10 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Login Successful");
                 
                 if ("C".equalsIgnoreCase(rol)) {
-                   ClienteVista clienteFrame = new ClienteVista();
+                   String usuario = rs.getString("CODIGO_USUARIO");
+                   String nombre = rs.getString("NOMBRE");
+                   String cliente = rs.getString("FK_NIT");
+                   ClienteVista clienteFrame = new ClienteVista(usuario,nombre,cliente);
                    clienteFrame.setLocationRelativeTo(null); 
                    clienteFrame.setVisible(true);
             } else if ("A".equalsIgnoreCase(rol)) {

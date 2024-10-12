@@ -48,6 +48,8 @@ import maps.MapViaje;
 import model.Viaje;
 import db.Conexion;
 import static db.Conexion.getConnection;
+import java.io.File;
+import java.io.PrintWriter;
 import java.sql.*;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -96,6 +98,7 @@ public class GestionViajesApp extends javax.swing.JFrame {
        DefaultComboBoxModel<String> estados = new DefaultComboBoxModel<>();
        DefaultComboBoxModel<String> estadossearch = new DefaultComboBoxModel<>();
        jComboBox1.setEnabled(false);
+       vehiculo.setEnabled(false);
        estados.addElement("");
        estados.addElement("Rechazado");
        estados.addElement("Solicitado");
@@ -842,14 +845,15 @@ public class GestionViajesApp extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(solsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(denegar)
-                            .addComponent(filtrar)
-                            .addComponent(limpiar)
-                            .addComponent(aprobar)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(iniviaje)
-                                .addComponent(finviaje))))
+                                .addComponent(finviaje))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(denegar)
+                                .addComponent(filtrar)
+                                .addComponent(limpiar)
+                                .addComponent(aprobar))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -910,13 +914,22 @@ public class GestionViajesApp extends javax.swing.JFrame {
     }//GEN-LAST:event_destinoActionPerformed
 
     private void aprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aprobarActionPerformed
-        opciones.aprobar(Integer.valueOf(txtCodigoViaje.getText()));
-        refreshTable();
-        LimpiarCampos();
-        reiniciarFiltro();
+        if(precio.getText().isEmpty() || vehiculo.getSelectedIndex()== 0){
+            JOptionPane.showMessageDialog(null, "Asegúrese de seleccionar vehículo y asignar precio al viaje antes de aprobar.", "Verifique los datos", JOptionPane.WARNING_MESSAGE);
+        }else{
+            Integer codigoViaje = Integer.valueOf(txtCodigoViaje.getText());
+            String placaVeh = vehiculo.getSelectedItem().toString();
+            Double pviaje = Double.valueOf(precio.getText());
+            opciones.aprobar(placaVeh,pviaje,codigoViaje);
+            refreshTable();
+            LimpiarCampos();
+            reiniciarFiltro();
+        }
+        
     }//GEN-LAST:event_aprobarActionPerformed
     
 private void LimpiarCampos() {
+    vehiculo.setEnabled(false);
     limpiar.setEnabled(true);
     jComboBox1.setSelectedIndex(0);
     abrirMapa.setEnabled(false);
@@ -927,6 +940,7 @@ private void LimpiarCampos() {
     jComboBox1.setEnabled(false);
     origen.setText("");
     destino.setText("");
+    precio.setText("");
     origen.requestFocus();
     destino.requestFocus();
     jDateChooser1.setDate(null);
@@ -1000,6 +1014,40 @@ private List<Viaje> getViajesFromTable() {
     return viajes;
 }
 
+public void exportarTablaACSV(JTable tabla, String rutaArchivo) {
+    try (PrintWriter writer = new PrintWriter(new File(rutaArchivo))) {
+        DefaultTableModel model = (DefaultTableModel) tabla.getModel();  // Obtenemos el modelo de la tabla
+
+        // Escribir las cabeceras de las columnas en el archivo CSV
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            writer.print(model.getColumnName(i));  // Escribir el nombre de la columna
+            if (i < model.getColumnCount() - 1) {
+                writer.print(",");  // Separador de columnas
+            }
+        }
+        writer.println();  // Nueva línea tras las cabeceras
+
+        // Escribir las filas de datos en el archivo CSV
+        for (int row = 0; row < model.getRowCount(); row++) {
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                writer.print(model.getValueAt(row, col));  // Escribir el valor de la celda
+                if (col < model.getColumnCount() - 1) {
+                    writer.print(",");  // Separador de columnas
+                }
+            }
+            writer.println();  // Nueva línea tras cada fila
+        }
+
+        JOptionPane.showMessageDialog(null, "Datos exportados exitosamente a: " + rutaArchivo, 
+                                      "Exportación Completa", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al exportar los datos: " + e.getMessage(), 
+                                      "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
+
 public void refreshTable() {
         // Configuración de las columnas de la tabla
         String[] columnNames = {"Cod. viaje", "Solicitante","Cliente","Vehiculo","Costo","Origen","Destino","Distancia","Fecha de salida","Fecha de llegada","Fecha de solicitud","Estado","Latitud Origen","Longitud Origen","Latidud Destino", "Longitud Destino"};
@@ -1031,22 +1079,22 @@ public void refreshTable() {
                 String distancia = rs.getString("DISTANCIA");
                 String fecha_salida = rs.getString("FECHA_SALIDA");
                 String fecha_llegada = rs.getString("FECHA_LLEGADA");
-                String estado = rs.getString("ESTADO");
-                switch (estado){
+                String sta = rs.getString("ESTADO");
+                switch (sta){
                 case "0":
-                    estado = "Rechazado";
+                    sta = "Rechazado";
                 break;
                 case "1":
-                    estado = "Solicitado";
+                    sta = "Solicitado";
                 break;
                 case "2":
-                    estado = "Aprobado";
+                    sta = "Aprobado";
                 break;
                 case "3":
-                    estado = "En proceso";
+                    sta = "En proceso";
                 break;
                 case "4":
-                    estado = "Finalizado";
+                    sta = "Finalizado";
                 break;
                 default:
                     JOptionPane.showMessageDialog(null, "Estado incorrecto, verificar DB");
@@ -1059,7 +1107,7 @@ public void refreshTable() {
                 String dLongitud = rs.getString("DLON");
                 
                 // Se cargan los datos del objeto a la tabla
-                dtm.addRow(new Object[]{codViaje, solicitante,cliente,vehiculo,costo,origen,destino,distancia,fecha_salida,fecha_llegada,fecha_registro,estado,oLatitud,oLongitud,dLatitud,dLongitud});
+                dtm.addRow(new Object[]{codViaje, solicitante,cliente,vehiculo,costo,origen,destino,distancia,fecha_salida,fecha_llegada,fecha_registro,sta,oLatitud,oLongitud,dLatitud,dLongitud});
             }
 
         } catch (Exception e) {
@@ -1077,14 +1125,15 @@ public void refreshTable() {
 
     private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
         GestionController gestionController = new GestionController();
-    List<Viaje> listaViajes = getViajesFromTable();        
+        String path = System.getProperty("user.dir");
+    String directorioCSV = path + "/CSV/";
+        exportarTablaACSV(tblViajes,directorioCSV);        
     // Obtener la fecha y hora actual
         LocalDateTime fechaActual = LocalDateTime.now();
         // Crear un DateTimeFormatter con el formato deseado
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
         // Formatear la fecha
         String fechaexport = fechaActual.format(formato);
-        gestionController.exportarViajesACSV(listaViajes,"viajes-"+fechaexport+".csv");
         
 /*
     String nombreArchivo = "viajes_exportados.csv"; // Puedes permitir al usuario elegir el nombre del archivo
@@ -1131,12 +1180,13 @@ public void refreshTable() {
     String fecllegada = String.valueOf(tblViajes.getValueAt(rowIndex, 9));
     String fecsalida = String.valueOf(tblViajes.getValueAt(rowIndex, 8));
     String estado = String.valueOf(tblViajes.getValueAt(rowIndex, 11));
+    String costo = String.valueOf(tblViajes.getValueAt(rowIndex, 4));
     String latitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 12));
     String longitudO = String.valueOf(tblViajes.getValueAt(rowIndex, 13));
     String latitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 14));
     String longitudD = String.valueOf(tblViajes.getValueAt(rowIndex, 15));
     String dist = String.valueOf(tblViajes.getValueAt(rowIndex, 7));
-    String vehiculo = String.valueOf(tblViajes.getValueAt(rowIndex,3));
+    String carro = String.valueOf(tblViajes.getValueAt(rowIndex,3));
     String cliente = String.valueOf(tblViajes.getValueAt(rowIndex, 2));
     String solicitante = String.valueOf(tblViajes.getValueAt(rowIndex, 1));
     String codigoViaje = String.valueOf(tblViajes.getValueAt(rowIndex,0));
@@ -1146,6 +1196,7 @@ public void refreshTable() {
     // Actualizar campos de texto
     origen.setText(origenText);
     destino.setText(destinoText);
+    precio.setText(costo);
     latitudOrigen.setText(latitudO);
     longitudOrigen.setText(longitudO);
     latitudDestino.setText(latitudD);
@@ -1157,6 +1208,7 @@ public void refreshTable() {
 
     // Actualizar JComboBox
     updateComboBox(estado);
+    updateVehiculo(carro);
     validarSituacion(estado);
 
     // Configurar formato de fecha
@@ -1180,37 +1232,63 @@ public void refreshTable() {
             }
         }
     }
+    
+    private void updateVehiculo(String vehi) {
+        ComboBoxModel<String> veh = vehiculo.getModel();
+        for (int i = 0; i < veh.getSize(); i++) {
+            if (veh.getElementAt(i).equals(vehi)) {
+                vehiculo.setSelectedIndex(i);
+                break;
+            }
+        }
+    }    
+    
     private void validarSituacion(String estado){
         switch (estado){
             case "Rechazado":
+                txtDistancia.setEditable(false);
+                precio.setEditable(false);
                 iniviaje.setEnabled(false);
                 finviaje.setEnabled(false);
                 aprobar.setEnabled(false);
                 denegar.setEnabled(false);
+                vehiculo.setEnabled(false);
                 break;
             case "Solicitado":
+                txtDistancia.setEditable(true);
+                precio.setEditable(true);
                 iniviaje.setEnabled(false);
                 finviaje.setEnabled(false);
                 aprobar.setEnabled(true);
                 denegar.setEnabled(true);
+                vehiculo.setEnabled(true);
                 break;
             case "Aprobado":
+                txtDistancia.setEditable(false);
+                precio.setEditable(false);
                 iniviaje.setEnabled(true);
                 finviaje.setEnabled(false);
                 aprobar.setEnabled(false);
                 denegar.setEnabled(false);
+                vehiculo.setEnabled(false);
                 break;
             case "En proceso":
+                txtDistancia.setEditable(false);
+                precio.setEditable(false);
                 iniviaje.setEnabled(false);
                 finviaje.setEnabled(true);
                 aprobar.setEnabled(false);
                 denegar.setEnabled(false);
+                vehiculo.setEnabled(false);
                 break;
             case "Finalizado":
+                txtDistancia.setEditable(false);
+                precio.setEditable(false);
                 iniviaje.setEnabled(false);
                 finviaje.setEnabled(false);
                 aprobar.setEnabled(false);
                 denegar.setEnabled(false);
+                vehiculo.setEnabled(false);
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Estado incorrecto, verifique la DB.");
@@ -1516,7 +1594,7 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     }//GEN-LAST:event_iniviajeActionPerformed
   
     private void cargarVehiculosEnComboBox() {
-        String sql = "SELECT PLACA FROM VEHICULOS";  // Ajusta esta consulta según tu tabla y campo
+        String sql = "SELECT PLACA FROM VEHICULOS WHERE DISPONIBLE = 1";  // Ajusta esta consulta según tu tabla y campo
         try (Connection conn = Conexion.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
