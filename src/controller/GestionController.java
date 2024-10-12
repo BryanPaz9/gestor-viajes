@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import view.GestionViajesApp;
 import db.Conexion;
 import java.sql.*;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -305,6 +306,106 @@ public class GestionController {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public void aprobar(Integer codigoViaje){
+        String sql = "UPDATE VIAJES SET ESTADO = ? WHERE CODIGO_VIAJE = ?";
+        try (Connection conn = Conexion.getConnection();
+       
+            PreparedStatement stmt = conn.prepareStatement(sql)) {          
+            // Asignar los valores a los parámetros
+            stmt.setInt(1, 2);
+            stmt.setInt(2, codigoViaje); // Este es el identificador para saber qué cliente actualizar
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Viaje aprobado satisfactoriamente!","Aprobación de viaje", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se encontró un viaje con el codigo proporcionado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    
+    }
+    
+    
+    
+    public void denegar(Integer codigoViaje){
+        String sql = "UPDATE VIAJES SET ESTADO = ? WHERE CODIGO_VIAJE = ?";
+        try (Connection conn = Conexion.getConnection();
+       
+            PreparedStatement stmt = conn.prepareStatement(sql)) {          
+            // Asignar los valores a los parámetros
+            stmt.setInt(1, 0);
+            stmt.setInt(2, codigoViaje); // Este es el identificador para saber qué cliente actualizar
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Viaje denegado satisfactoriamente!","Viaje denegado", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se encontró un viaje con el codigo proporcionado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void iniciarViaje(Integer codigoViaje){
+        String sql = "UPDATE VIAJES SET FECHA_SALIDA = TO_DATE(?, 'YYYY-MM-DD'), ESTADO = ? WHERE CODIGO_VIAJE = ?";
+        try (Connection conn = Conexion.getConnection();
+       
+            PreparedStatement stmt = conn.prepareStatement(sql)) {          
+            LocalDate fechaActual = LocalDate.now();
+            
+            String fechaFormateada = fechaActual.toString();  // Formato 'YYYY-MM-DD'
+            
+            System.out.println(fechaFormateada);
+            // Asignar los valores a los parámetros
+            stmt.setString(1, fechaFormateada);
+            stmt.setInt(2, 3);
+            stmt.setInt(3, codigoViaje); // Este es el identificador para saber qué cliente actualizar
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Viaje iniciado satisfactoriamente!","Inicio de viaje", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se encontró un viaje con el codigo proporcionado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void finalizarViaje(Integer codigoViaje){
+        String sql = "UPDATE VIAJES SET FECHA_LLEGADA = TO_DATE(?, 'YYYY-MM-DD'), ESTADO = ? WHERE CODIGO_VIAJE = ?";
+        try (Connection conn = Conexion.getConnection();
+       
+            PreparedStatement stmt = conn.prepareStatement(sql)) {          
+            LocalDate fechaActual = LocalDate.now();
+            
+            String fechaFormateada = fechaActual.toString();  // Formato 'YYYY-MM-DD'
+            
+            System.out.println(fechaFormateada);
+            // Asignar los valores a los parámetros
+            stmt.setString(1, fechaFormateada);
+            stmt.setInt(2, 4);
+            stmt.setInt(3, codigoViaje); // Este es el identificador para saber qué cliente actualizar
+            // Ejecutar la actualización
+            int filasActualizadas = stmt.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Viaje finalizado satisfactoriamente!","Fin de viaje", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("No se encontró un viaje con el codigo proporcionado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }
