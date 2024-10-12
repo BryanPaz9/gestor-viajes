@@ -157,7 +157,7 @@ private void txtfiles()
 
         jLabel1.setText("NIT");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "0", "1" }));
 
         jLabel2.setText("NOMBRE");
 
@@ -197,6 +197,11 @@ private void txtfiles()
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -469,6 +474,27 @@ private void txtfiles()
         eliminarcliente(nit);
         llenartablita();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+               int rowIndex = jTable1.rowAtPoint(evt.getPoint());
+         if (rowIndex < 0) {
+        return; // Salir si la fila seleccionada no es válida
+    }
+         String nittext = String.valueOf(jTable1.getValueAt(rowIndex,0));
+         String nombretext = String.valueOf(jTable1.getValueAt(rowIndex,1));
+         String correotext = String.valueOf(jTable1.getValueAt(rowIndex,2));
+         String teleftext = String.valueOf(jTable1.getValueAt(rowIndex,3));
+         String direcciontext = String.valueOf(jTable1.getValueAt(rowIndex,4));
+         String situatext = String.valueOf(jTable1.getValueAt(rowIndex,5));
+         
+         jTextField1.setText(nittext);
+         jTextField2.setText(nombretext);
+         jTextField3.setText(correotext);
+         jTextField4.setText(teleftext);
+         jTextField5.setText(direcciontext);
+         jComboBox1.setSelectedItem(situatext);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments

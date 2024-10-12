@@ -573,9 +573,19 @@ public class GestionViajesApp extends javax.swing.JFrame {
         jMenu3.add(crud_clientes);
 
         crud_vehiculos.setText("Vehiculos");
+        crud_vehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crud_vehiculosActionPerformed(evt);
+            }
+        });
         jMenu3.add(crud_vehiculos);
 
         crud_usuarios.setText("Usuarios");
+        crud_usuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crud_usuariosActionPerformed(evt);
+            }
+        });
         jMenu3.add(crud_usuarios);
 
         ubicaciones.setText("Ubicaciones");
@@ -1446,6 +1456,20 @@ private void updateDateChooser(JDateChooser dateChooser, String dateString, Simp
     private void stasearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stasearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stasearchActionPerformed
+
+    private void crud_vehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crud_vehiculosActionPerformed
+        // TODO add your handling code here:
+        Vehiculos v = new Vehiculos();
+        v.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_crud_vehiculosActionPerformed
+
+    private void crud_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crud_usuariosActionPerformed
+        // TODO add your handling code here:
+        Usuarios u = new Usuarios();
+        u.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_crud_usuariosActionPerformed
   
     private void cargarVehiculosEnComboBox() {
         String sql = "SELECT PLACA FROM VEHICULOS";  // Ajusta esta consulta según tu tabla y campo
